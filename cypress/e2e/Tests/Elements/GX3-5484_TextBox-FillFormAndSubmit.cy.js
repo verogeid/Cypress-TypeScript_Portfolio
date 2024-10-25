@@ -11,23 +11,24 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#01: Validar que SI se muestre mensaje si los CAMPOS estan BIEN rellenados', () => {
-		cy.get('input#userName').type(dataForm.UserName.valid1);
-		cy.get('input#userEmail').type(dataForm.Email.valid1);
-		cy.get('textarea#currentAddress').type(dataForm.CurrentAddress.valid1);
-		cy.get('textarea#permanentAddress').type(dataForm.PermanentAddress.valid1);
+		cy.get('input#userName').type(dataForm.UserName.valid[0]);
+		cy.get('input#userEmail').type(dataForm.Email.valid[0]);
+		cy.get('textarea#currentAddress').type(dataForm.CurrentAddress.valid[0]);
+		cy.get('textarea#permanentAddress').type(dataForm.PermanentAddress.valid[0]);
 		cy.get('button#submit').click();
 
 		//Validar que el mensaje existe
 		cy.get('p.mb-1').should('exist');
 
 		//Validar que los datos en el mensaje son los mismos que se introdujeron
-		cy.get('p#name.mb-1').should('contain.text', dataForm.UserName.valid1);
-		cy.get('p#email.mb-1').should('contain.text', dataForm.Email.valid1);
-		cy.get('p#currentAddress.mb-1').should('contain.text', dataForm.CurrentAddress.valid1);
-		cy.get('p#permanentAddress.mb-1').should('contain.text', dataForm.PermanentAddress.valid1);
+		cy.get('p#name.mb-1').should('contain.text', dataForm.UserName.valid[0]);
+		cy.get('p#email.mb-1').should('contain.text', dataForm.Email.valid[0]);
+		cy.get('p#currentAddress.mb-1').should('contain.text', dataForm.CurrentAddress.valid[0]);
+		cy.get('p#permanentAddress.mb-1').should('contain.text', dataForm.PermanentAddress.valid[0]);
 	});
 
 	it('US # GX3-5484 | TC#02: Validar que NO se muestre mensaje si los CAMPOS estan VACÍOS', () => {
+		//No se agregan datos porque cypress no permite insertar cadena vacía ''
 		cy.get('input#userName');
 		cy.get('input#userEmail');
 		cy.get('textarea#currentAddress');
@@ -39,22 +40,22 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#03: Validar que SI se muestre mensaje si los CAMPOS NO estan VACÍOS', () => {
-		cy.get('input#userName').type(dataForm.UserName.valid1);
-		cy.get('textarea#currentAddress').type(dataForm.CurrentAddress.valid1);
-		cy.get('textarea#permanentAddress').type(dataForm.PermanentAddress.valid1);
+		cy.get('input#userName').type(dataForm.UserName.valid[0]);
+		cy.get('textarea#currentAddress').type(dataForm.CurrentAddress.valid[0]);
+		cy.get('textarea#permanentAddress').type(dataForm.PermanentAddress.valid[0]);
 		cy.get('button#submit').click();
 
 		//Validar que el mensaje existe
 		cy.get('p.mb-1').should('exist');
 
 		//Validar que los datos en el mensaje son los mismos que se introdujeron
-		cy.get('p#name.mb-1').should('contain.text', dataForm.UserName.valid1);
-		cy.get('p#currentAddress.mb-1').should('contain.text', dataForm.CurrentAddress.valid1);
-		cy.get('p#permanentAddress.mb-1').should('contain.text', dataForm.PermanentAddress.valid1);
+		cy.get('p#name.mb-1').should('contain.text', dataForm.UserName.valid[0]);
+		cy.get('p#currentAddress.mb-1').should('contain.text', dataForm.CurrentAddress.valid[0]);
+		cy.get('p#permanentAddress.mb-1').should('contain.text', dataForm.PermanentAddress.valid[0]);
 	});
 
 	it('US # GX3-5484 | TC#04: Validar que el input EMAIL tenga BORDE si NO tiene ARROBA', () => {
-		cy.get('input#userEmail').type(dataForm.Email.invalid1);
+		cy.get('input#userEmail').type(dataForm.Email.invalid[0]);
 		cy.get('button#submit').click();
 
 		//Validar que la clase existe
@@ -64,7 +65,7 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#05: Validar que el input EMAIL tenga BORDE si NO tiene USUARIO', () => {
-		cy.get('input#userEmail').type(dataForm.Email.invalid2);
+		cy.get('input#userEmail').type(dataForm.Email.invalid[1]);
 		cy.get('button#submit').click();
 
 		//Validar que la clase existe
@@ -74,7 +75,7 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#06: Validar que el input EMAIL tenga BORDE si NO tiene SUBDOMINIO', () => {
-		cy.get('input#userEmail').type(dataForm.Email.invalid3);
+		cy.get('input#userEmail').type(dataForm.Email.invalid[2]);
 		cy.get('button#submit').click();
 
 		//Validar que la clase existe
@@ -84,7 +85,7 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#07: Validar que el input EMAIL tenga BORDE si no tiene DOMINIO', () => {
-		cy.get('input#userEmail').type(dataForm.Email.invalid4);
+		cy.get('input#userEmail').type(dataForm.Email.invalid[3]);
 		cy.get('button#submit').click();
 
 		//Validar que la clase existe
@@ -94,7 +95,7 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#08: Validar que el input EMAIL tenga BORDE si NO tiene un DOMINIO VÁLIDO', () => {
-		cy.get('input#userEmail').type(dataForm.Email.invalid5);
+		cy.get('input#userEmail').type(dataForm.Email.invalid[4]);
 		cy.get('button#submit').click();
 
 		//Validar que la clase existe
@@ -103,8 +104,25 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 		//cy.get('.mr-sm-2.field-error.form-control').should('have.css', 'border-color', 'rgb(255, 0, 0)');
 	});
 
-	it('US # GX3-5484 | TC#09: Validar que el input EMAIL tenga BORDE si NO contiene DATOS VÁLIDOS', () => {
-		cy.get('input#userEmail').type(dataForm.Email.invalid6);
+	it('US # GX3-5484 | TC#09: Validar que el input EMAIL tenga BORDE si contiene DOS ARROBAS', () => {
+		cy.get('input#userEmail').type(dataForm.Email.invalid[5]);
+		cy.get('button#submit').click();
+
+		//Validar que la clase existe
+		cy.get('.mr-sm-2.field-error.form-control').should('exist');
+	});
+
+	it('US # GX3-5484 | TC#10: Validar que el input EMAIL tenga BORDE si contiene DATOS INVÁLIDOS con FORMATO CORRECTO', () => {
+		cy.get('input#userEmail').type(dataForm.Email.invalid[6]);
+		cy.get('button#submit').click();
+
+		//Validar que la clase existe
+		cy.get('.mr-sm-2.field-error.form-control').should('exist');
+	});
+
+	it('US # GX3-5484 | TC#11: Validar que el input EMAIL tenga BORDE si contiene ACENTOS', () => {
+		// https://www.infomaniak.com/es/asistencia/faq/438/descubrir-los-caracteres-permitidos-para-una-direccion-de-correo-electronico
+		cy.get('input#userEmail').type(dataForm.Email.invalid[7]);
 		cy.get('button#submit').click();
 
 		//Validar que la clase existe
