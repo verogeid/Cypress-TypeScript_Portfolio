@@ -11,8 +11,11 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#01: Validar que SI se muestre mensaje si los CAMPOS estan BIEN rellenados', () => {
+		/* https://www.infomaniak.com/es/asistencia/faq/438/descubrir-los-caracteres-permitidos-para-una-direccion-de-correo-electronico
+		El nombre de usuario debiera poder empezar o finalizar con punto*/
+
 		cy.get('input#userName').type(dataForm.UserName.valid[0]);
-		cy.get('input#userEmail').type(dataForm.Email.valid[0]);
+		cy.get('input#userEmail').type(dataForm.Email.valid[1]);
 		cy.get('textarea#currentAddress').type(dataForm.CurrentAddress.valid[0]);
 		cy.get('textarea#permanentAddress').type(dataForm.PermanentAddress.valid[0]);
 		cy.get('button#submit').click();

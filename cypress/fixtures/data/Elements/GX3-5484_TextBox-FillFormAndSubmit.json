@@ -3,7 +3,7 @@
 		"valid": ["Diego González"]
 	},
 	"Email": {
-		"valid": ["diego@gmail.com"],
+		"valid": ["diego@gmail.com", ".diego.@gmail.com"],
 		"invalid": ["diegogmail.com", "@gmail.com", "diego@.com", "diego@gmailcom", "diego@gmail.c", "diego@gonzalez@gmail.com", "__@gmail.com", "diegogonzález@gmail.com", "diego!gonzalez@gmail.com"]
 	},
 	"CurrentAddress": {
