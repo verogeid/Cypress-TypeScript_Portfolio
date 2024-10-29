@@ -25,7 +25,7 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 
 		//Validar que los datos en el mensaje son los mismos que se introdujeron
 		cy.get('p#name.mb-1').should('contain.text', dataForm.UserName.valid[0]);
-		cy.get('p#email.mb-1').should('contain.text', dataForm.Email.valid[0]);
+		cy.get('p#email.mb-1').should('contain.text', dataForm.Email.valid[1]);
 		cy.get('p#currentAddress.mb-1').should('contain.text', dataForm.CurrentAddress.valid[0]);
 		cy.get('p#permanentAddress.mb-1').should('contain.text', dataForm.PermanentAddress.valid[0]);
 	});
@@ -115,17 +115,9 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 		cy.get('.mr-sm-2.field-error.form-control').should('exist');
 	});
 
-	it('US # GX3-5484 | TC#10: Validar que el input EMAIL tenga BORDE si contiene DATOS INVÁLIDOS con FORMATO CORRECTO', () => {
-		cy.get('input#userEmail').type(dataForm.Email.invalid[6]);
-		cy.get('button#submit').click();
-
-		//Validar que la clase existe
-		cy.get('.mr-sm-2.field-error.form-control').should('exist');
-	});
-
-	it('US # GX3-5484 | TC#11: Validar que el input EMAIL tenga BORDE si contiene ACENTOS', () => {
+	it('US # GX3-5484 | TC#10: Validar que el input EMAIL tenga BORDE si contiene ACENTOS', () => {
 		// https://www.infomaniak.com/es/asistencia/faq/438/descubrir-los-caracteres-permitidos-para-una-direccion-de-correo-electronico
-		cy.get('input#userEmail').type(dataForm.Email.invalid[7]);
+		cy.get('input#userEmail').type(dataForm.Email.invalid[6]);
 		cy.get('button#submit').click();
 
 		//Validar que la clase existe
