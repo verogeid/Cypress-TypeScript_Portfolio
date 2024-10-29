@@ -1,0 +1,36 @@
+{
+	"FullName": {
+		"input": "#userName",
+		"data": {
+			"valid": "Aquilesbailo",
+			"empty": ""
+		}
+	},
+	"Email": {
+		"input": "#userEmail",
+		"data": {
+			"valid": "valido@gmail.com",
+			"invalid1": "desconozcoelarroba.com",
+			"invalid2": "@ignoreelnombre",
+			"invalid3": "comosigue@",
+			"invalid4": "abandone@elpunto",
+			"invalid5": "faltamucho@casi.a",
+			"empty": ""
+		}
+	},
+	"CurrentAddress": {
+		"input": "#currentAddress",
+		"data": {
+			"valid": "acá vivo yo",
+			"empty": ""
+		}
+	},
+	"PermanentAddress": {
+		"input": "#permanentAddress",
+		"data": {
+			"valid": "mi dirección permanente es esta",
+			"empty": ""
+		}
+	},
+	"SubmitButton": "#submit"
+}
