@@ -16,23 +16,25 @@ describe('US GX3-55542 | ToolsQA | Elements | Radio Buttons', () => {
 		cy.contains('No').should('be.visible');
 	});
 
-	it('US # GX3-5552 | TC#02 Validar que ningún botón este seleccionado por defecto', () => {
+	it('US # GX3-5552 | TC#02 Validar que ningún botón este seleccionado por DEFECTO', () => {
 		cy.get('#yesRadio.custom-control-input').should('not.be.checked');
 		cy.get('#impressiveRadio.custom-control-input').should('not.be.checked');
 		cy.get('#noRadio.custom-control-input').should('not.be.checked');
 	});
 
-	it('US # GX3-5552 | TC#03: Validar seleccionar el radio button “Yes” y visualizar mensaje', () => {
+	it('US # GX3-5552 | TC#03: Validar selección del radio button “Yes” y visualizar mensaje', () => {
+		cy.get('#yesRadio').should('be.enabled');
 		cy.get('label[for="yesRadio"]').click();
 		cy.get('.text-success').should('have.text', 'Yes').and('be.visible');
 	});
 
-	it('US # GX3-5552 | TC#04: Validar seleccionar el radio button “Impressive” y visualizar mensaje', () => {
+	it('US # GX3-5552 | TC#04: Validar selección del radio button “Impressive” y visualizar mensaje', () => {
+		cy.get('#impressiveRadio').should('be.enabled');
 		cy.get('label[for="impressiveRadio"]').click();
 		cy.get('.text-success').should('have.text', 'Impressive').and('be.visible');
 	});
 
-	it('US # GX3-5552 | TC#05: Validar que no se puede seleccionar el radio button “No”', () => {
+	it('US # GX3-5552 | TC#05: Validar que NO se puede seleccionar el radio button “No”', () => {
 		cy.get('#noRadio').should('be.disabled');
 	});
 });
