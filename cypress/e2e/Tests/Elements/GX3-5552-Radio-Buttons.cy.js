@@ -1,4 +1,4 @@
-describe('US GX3-55542 | ToolsQA | Elements | Radio Buttons', () => {
+describe('US GX3-5552 | ToolsQA | Elements | Radio Buttons', () => {
 	cy.on('uncaught:exception', (err, runnable) => {
 		return false;
 	});
