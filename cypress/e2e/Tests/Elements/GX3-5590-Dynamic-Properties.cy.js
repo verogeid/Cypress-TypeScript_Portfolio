@@ -1,4 +1,4 @@
-import { dynamicPropertiesPage } from '@pages/GX3-5590-Dynamic-Properties.Page.js';
+import { dynamicPropertiesPage } from '@pages/GX3-5590-Dynamic-Properties.Page';
 
 describe('US GX3-5590 | ToolsQA | Elements | Dynamic Properties', () => {
 	cy.on('uncaught:exception', (err, runnable) => {
@@ -11,26 +11,26 @@ describe('US GX3-5590 | ToolsQA | Elements | Dynamic Properties', () => {
 	});
 
 	it('US # GX3-5590 | TC#01: Validar la existencia de los elementos', () => {
-		cy.get('div > p').should('exist');
-		cy.get('div > button.mt-4.btn.btn-primary').should('exist').and('have.length', 2);
+		cy.get('[class="col-12 mt-4 col-md-6"] p').should('exist');
+		cy.get('[class="col-12 mt-4 col-md-6"] button.mt-4.btn.btn-primary').should('exist').and('have.length', 2); // visibleButton se crea y hace visible 5 segundos después
 	});
 
 	it('US # GX3-5590 | TC#02: Validar el texto del tag paragraph', () => {
-		dinamicPropertiesPage.get.txtElement().should('contain.text', 'This text has random Id').and('be.visible');
+		dynamicPropertiesPage.get.txtElement().should('contain.text', 'This text has random Id').and('be.visible');
 	});
 
 	it('US # GX3-5590 | TC#03: Validar el cambio de estado del button "enableAfter"', () => {
-		cy.get('div > button.mt-4.btn.btn-primary').eq(0).should('be.not.enabled');
+		cy.get('[class="col-12 mt-4 col-md-6"] button#enableAfter.mt-4.btn.btn-primary').should('be.not.enabled');
 		dynamicPropertiesPage.get.btnEnable().should('be.enabled');
 	});
 
 	it('US # GX3-5590 | TC#04: Validar el cambio de color del button "colorChange"', () => {
-		cy.get('div > button.mt-4.btn.btn-primary').eq(1).should('be.visible');
-		dynamicPropertiesPage.get.btnColor().should('be.enabled');
+		cy.get('[class="col-12 mt-4 col-md-6"] button#colorChange.mt-4.btn.btn-primary').should('be.visible');
+		dynamicPropertiesPage.get.btnColor().should('have.class', 'text-danger');
 	});
 
 	it('US # GX3-5590 | TC#04: Validar el cambio de visibilidad del button "visibleAfter"', () => {
-		cy.get('div > button.mt-4.btn.btn-primary').eq(2).should('not.exist');
+		cy.get('[class="col-12 mt-4 col-md-6"] button#visibleAfter.mt-4.btn.btn-primary').should('not.exist');
 		dynamicPropertiesPage.get.btnVisible().should('exist').and('be.visible');
 	});
 });
