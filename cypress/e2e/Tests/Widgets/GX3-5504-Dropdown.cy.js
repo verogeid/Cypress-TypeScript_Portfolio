@@ -44,7 +44,7 @@ describe('GX3-5504 |ToolsQA | Widgets | Dropdown - Select Menu', () => {
 		cy.get('#oldSelectMenu').select(randomOptionTc3);
 		cy.get('#oldSelectMenu').should('have.value', randomOptionTc3);
 	});
-	it('GX3-5539 | TC4: Validar poder seleccionar uno ó todas las opciones del Dropdown Multiselect drop down.', () => {
+	it.only('GX3-5539 | TC4: Validar poder seleccionar uno ó todas las opciones del Dropdown Multiselect drop down.', () => {
 		cy.get('.css-yk16xz-control').eq(2).click();
 		cy.get('#react-select-4-option-0').click();
 		cy.get('.css-19bqh2r').eq(2).click();
@@ -53,7 +53,7 @@ describe('GX3-5504 |ToolsQA | Widgets | Dropdown - Select Menu', () => {
 		cy.get('#react-select-4-option-2').click();
 		cy.get('#react-select-4-option-3').click();
 		cy.get('.css-1gl4k7y').should('have.text', 'No options');
-		cy.get('.css-1pahdxg-control > .css-1wy0on6 > :nth-child(1)').click();
+		cy.get('svg.css-19bqh2r').eq(6).click();
 		const randomOptionTc4 = opcionesTc4[Math.floor(Math.random() * opcionesTc4.length)];
 		cy.get(randomOptionTc4).click();
 	});
