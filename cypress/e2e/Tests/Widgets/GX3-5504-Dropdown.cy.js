@@ -44,7 +44,7 @@ describe('GX3-5504 |ToolsQA | Widgets | Dropdown - Select Menu', () => {
 		cy.get('#oldSelectMenu').select(randomOptionTc3);
 		cy.get('#oldSelectMenu').should('have.value', randomOptionTc3);
 	});
-	it.only('GX3-5539 | TC4: Validar poder seleccionar uno ó todas las opciones del Dropdown Multiselect drop down.', () => {
+	it('GX3-5539 | TC4: Validar poder seleccionar uno ó todas las opciones del Dropdown Multiselect drop down.', () => {
 		cy.get('.css-yk16xz-control').eq(2).click();
 		cy.get('#react-select-4-option-0').click();
 		cy.get('.css-19bqh2r').eq(2).click();
@@ -63,7 +63,7 @@ describe('GX3-5504 |ToolsQA | Widgets | Dropdown - Select Menu', () => {
 		const randomOptionTc5 = opcionesTc5[Math.floor(Math.random() * opcionesTc5.length)];
 		cy.get('#cars').select(randomOptionTc5);
 	});
-	it('GX3-5539 | TC6: Validar interactuar con una opcion de cada Dropdown al seleccionarlos todos juntos.', () => {
+	it.only('GX3-5539 | TC6: Validar interactuar con una opcion de cada Dropdown al seleccionarlos todos juntos.', () => {
 		cy.get('.css-yk16xz-control').eq(0).click();
 		cy.get(randomOptionTc1).click();
 		cy.get('.css-yk16xz-control').eq(0).click();
@@ -71,7 +71,7 @@ describe('GX3-5504 |ToolsQA | Widgets | Dropdown - Select Menu', () => {
 		cy.get('#oldSelectMenu').select(randomOptionTc3);
 		cy.get('.css-yk16xz-control').eq(2).click();
 		cy.get(randomOptionTc4).click();
-		cy.get('.css-1wy0on6 > :nth-child(3)').click();
+		cy.get('.css-19bqh2r').eq(4).click();
 		cy.get('#cars').select(randomOptionTc5);
 	});
 });
