@@ -1,67 +1,64 @@
-describe('GX3-5540 |✅ToolsQA | Elements | Tex Box Fill Form and Submit', () => {
-	beforeEach('Usuario tiene acceso al SUT', () => {
+import { textBoxPage } from '../../../support/pages/GX3-5540-textbox.Page';
+
+describe('GX3-5540 |✅ToolsQA | Elements | Text Box Fill Form and Submit', () => {
+	beforeEach(() => {
 		cy.visit('https://demoqa.com/text-box');
 		cy.url().should('contain', 'text-box');
 	});
+
 	it('GX3-5540 | TC1: Validar completar el formulario con data valida', () => {
 		cy.fixture('data/Elements/GX3-5540-textbox.json').then(the => {
-			cy.get(the.FullName.input).type(the.FullName.data.valid);
-			cy.get(the.Email.input).type(the.Email.data.valid);
-			cy.get(the.CurrentAddress.input).type(the.CurrentAddress.data.valid);
-			cy.get(the.PermanentAddress.input).type(the.PermanentAddress.data.valid);
-			cy.get(the.SubmitButton).click();
-			cy.get('#name').should('contain.text', the.FullName.data.valid);
-			cy.get('#email').should('contain.text', the.Email.data.valid);
-			cy.get('#currentAddress.mb-1').should('contain', the.CurrentAddress.data.valid);
-			cy.get('#permanentAddress.mb-1').should('contain', the.PermanentAddress.data.valid);
+			textBoxPage.enterFullName(the.FullName.data.valid);
+			textBoxPage.enterEmail(the.Email.data.valid);
+			textBoxPage.enterCurrentAddress(the.CurrentAddress.data.valid);
+			textBoxPage.enterPermanentAddress(the.PermanentAddress.data.valid);
+			textBoxPage.submitForm();
+			textBoxPage.verifyOutput(the.FullName.data.valid, the.Email.data.valid, the.CurrentAddress.data.valid, the.PermanentAddress.data.valid);
 		});
 	});
+
 	it('GX3-5540 | TC2: Validar enviar formulario con todos los campos vacíos no muestre ningún mensaje', () => {
+		textBoxPage.submitForm();
+		textBoxPage.verifyNoOutput();
+	});
+
+	it('GX3-5540 | TC3: Validar No enviar formulario cuando Email No contiene “@”', () => {
 		cy.fixture('data/Elements/GX3-5540-textbox.json').then(the => {
-			cy.get(the.FullName.input).should('be.empty');
-			cy.get(the.Email.input).should('be.empty');
-			cy.get(the.CurrentAddress.input).should('be.empty');
-			cy.get(the.PermanentAddress.input).should('be.empty');
-			cy.get(the.SubmitButton).click();
-			cy.get('#name').should('not.exist');
-			cy.get('#email').should('not.exist');
-			cy.get('#currentAddress.mb-1').should('not.exist');
-			cy.get('#permanentAddress.mb-1').should('not.exist');
+			textBoxPage.enterEmail(the.Email.data.invalid1);
+			textBoxPage.submitForm();
+			textBoxPage.verifyEmailError();
 		});
 	});
-	it('GX3-5540 | TC3: Validar No enviar formulario cuando Email  No contiene “@”', () => {
+
+	it('GX3-5540 | TC4: Validar No enviar formulario cuando Email No contiene (mínimo) 1 carácter alfanumérico antes de "@"', () => {
 		cy.fixture('data/Elements/GX3-5540-textbox.json').then(the => {
-			cy.get(the.Email.input).type(the.Email.data.invalid1);
-			cy.get(the.SubmitButton).click();
-			cy.get(the.Email.input).should('have.class', 'field-error');
+			textBoxPage.enterEmail(the.Email.data.invalid2);
+			textBoxPage.submitForm();
+			textBoxPage.verifyEmailError();
 		});
 	});
-	it('GX3-5540 | TC4: Validar No enviar formulario cuando Email  No contiene (mínimo) 1 carácter alfanumérico antes de "@"', () => {
+
+	it('GX3-5540 | TC5: Validar No enviar formulario cuando Email No contiene (mínimo) 1 carácter alfanumérico después de "@"', () => {
 		cy.fixture('data/Elements/GX3-5540-textbox.json').then(the => {
-			cy.get(the.Email.input).type(the.Email.data.invalid2);
-			cy.get(the.SubmitButton).click();
-			cy.get(the.Email.input).should('have.class', 'field-error');
+			textBoxPage.enterEmail(the.Email.data.invalid3);
+			textBoxPage.submitForm();
+			textBoxPage.verifyEmailError();
 		});
 	});
-	it('GX3-5540 | TC5: Validar No enviar formulario cuando Email  No contiene (mínimo) 1 carácter alfanumérico después de "@"', () => {
+
+	it('GX3-5540 | TC6: Validar No enviar formulario cuando Email No contiene "." después de 1 carácter alfanumérico después de "@"', () => {
 		cy.fixture('data/Elements/GX3-5540-textbox.json').then(the => {
-			cy.get(the.Email.input).type(the.Email.data.invalid3);
-			cy.get(the.SubmitButton).click();
-			cy.get(the.Email.input).should('have.class', 'field-error');
+			textBoxPage.enterEmail(the.Email.data.invalid4);
+			textBoxPage.submitForm();
+			textBoxPage.verifyEmailError();
 		});
 	});
-	it('GX3-5540 | TC6: Validar No enviar formulario cuando Email  No contiene "." después de 1 carácter alfanumérico después de "@"', () => {
+
+	it('GX3-5540 | TC7: Validar No enviar formulario cuando Email No contiene (mínimo) 2 caracteres alfanuméricos después de "."', () => {
 		cy.fixture('data/Elements/GX3-5540-textbox.json').then(the => {
-			cy.get(the.Email.input).type(the.Email.data.invalid4);
-			cy.get(the.SubmitButton).click();
-			cy.get(the.Email.input).should('have.class', 'field-error');
-		});
-	});
-	it('GX3-5540 | TC7: Validar No enviar formulario cuando Email  No contiene (mínimo) 2 caracteres alfanuméricos después de "."', () => {
-		cy.fixture('data/Elements/GX3-5540-textbox.json').then(the => {
-			cy.get(the.Email.input).type(the.Email.data.invalid5);
-			cy.get(the.SubmitButton).click();
-			cy.get(the.Email.input).should('have.class', 'field-error');
+			textBoxPage.enterEmail(the.Email.data.invalid5);
+			textBoxPage.submitForm();
+			textBoxPage.verifyEmailError();
 		});
 	});
 });
