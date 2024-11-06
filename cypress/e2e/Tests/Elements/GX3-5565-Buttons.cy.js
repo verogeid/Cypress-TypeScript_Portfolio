@@ -1,3 +1,5 @@
+const { should } = require('chai');
+
 describe('US GX3-5565 | ToolsQA | Elements | Buttons', () => {
 	beforeEach('PRC: Abrir la url buttons de ToolsQA', () => {
 		cy.visit('https://demoqa.com/buttons');
@@ -5,60 +7,106 @@ describe('US GX3-5565 | ToolsQA | Elements | Buttons', () => {
 	});
 
 	it('US # GX3-5565 | TC#01: Validar comportamiento del button "DOUBLE Click" al hacer dblClick', () => {
-		cy.get('button#doubleClickBtn').should('exist').and('be.enabled').and('be.visible').and('contain.text', 'Double Click Me');
-		cy.get('button#doubleClickBtn').dblclick();
+		cy.get('button#doubleClickBtn').as('doubleClickBtn');
+		cy.get('@doubleClickBtn').within(() => {
+			should('exist');
+			should('be.enabled');
+			should('be.visible');
+			should('contain.text', 'Double Click Me');
 
-		cy.get('p[id=doubleClickMessage]').should('exist').and('be.visible').and('contain.text', 'You have done a double click');
+			dblclick();
+		});
+
+		cy.get('p[id=doubleClickMessage]').as('doubleClickMessage');
+		cy.get('@doubleClickMessage').within(() => {
+			should('exist');
+			should('be.visible');
+			should('contain.text', 'You have done a double click');
+		});
 	});
 
 	it('US # GX3-5565 | TC#02: Validar comportamiento del button "RIGHT Click" al hacer rightClick', () => {
-		cy.get('button#rightClickBtn').should('exist').and('be.enabled').and('be.visible').and('contain.text', 'Right Click Me');
-		cy.get('button#rightClickBtn').rightclick();
+		cy.get('button#rightClickBtn').as('rightClickBtn');
+		cy.get('@rightClickBtn').within(() => {
+			should('exist');
+			should('be.enabled');
+			should('be.visible');
+			should('contain.text', 'Right Click Me');
 
-		cy.get('p[id=rightClickMessage]').should('exist').and('be.visible').and('contain.text', 'You have done a right click');
+			rightclick();
+		});
+
+		cy.get('p[id=rightClickMessage]').as('rightClickMessage');
+		cy.get('@rightClickMessage').within(() => {
+			should('exist');
+			should('be.visible');
+			should('contain.text', 'You have done a right click');
+		});
 	});
 
 	it('US # GX3-5565 | TC#03: Validar comportamiento del button "CLICK" al hacer click', () => {
 		// button#fcmdZ es un randomId. Hay que localizar el botón de otra manera
 		cy.get('button.btn.btn-primary').eq(2).as('clickBtn');
+		cy.get('@clickBtn').within(() => {
+			should('exist');
+			should('be.enabled');
+			should('be.visible');
+			should('contain.text', 'Click Me');
 
-		cy.get('@clickBtn').should('exist').and('be.enabled').and('be.visible').and('contain.text', 'Click Me');
-		cy.get('@clickBtn').click();
+			click();
+		});
 
-		cy.get('p[id=dynamicClickMessage]').should('exist').and('be.visible').and('contain.text', 'You have done a dynamic click');
+		cy.get('p[id=dynamicClickMessage]').as('dynamicClickMessage');
+		cy.get('@dynamicClickMessage').within(() => {
+			should('exist');
+			should('be.visible');
+			should('contain.text', 'You have done a dynamic click');
+		});
 	});
 
 	it('US # GX3-5565 | TC#04: Validar que NO haga nada el button "DOUBLE Click" con OTRO EVENTO', () => {
-		cy.get('button#doubleClickBtn').should('exist').and('be.enabled').and('be.visible');
+		cy.get('button#doubleClickBtn').as('doubleClickBtn');
+		cy.get('@doubleClickBtn').within(() => {
+			should('exist');
+			should('be.enabled');
+			should('be.visible');
 
-		cy.get('button#doubleClickBtn').click();
-		cy.get('button#doubleClickBtn').rightclick();
+			click();
+			rightclick();
+		});
 
-		cy.get('p[id=doubleClickMessage]').should('not.exist');
-		cy.get('p[id=rightClickMessage]').should('not.exist');
-		cy.get('p[id=dynamicClickMessage]').should('not.exist');
+		cy.get('p[id=doubleClickMessage]').as('doubleClickMessage').should('not.exist');
+		cy.get('p[id=rightClickMessage]').as('rightClickMessage').should('not.exist');
+		cy.get('p[id=dynamicClickMessage]').as('dynamicClickMessage').should('not.exist');
 	});
 
 	it('US # GX3-5565 | TC#05: Validar que NO haga nada el button "RIGHT Click" con OTRO EVENTO', () => {
-		cy.get('button#rightClickBtn').should('be.enabled').and('be.visible');
+		cy.get('button#rightClickBtn').as('rightClickBtn');
+		cy.get('@rightClickBtn').within(() => {
+			should('be.enabled');
+			should('be.visible');
 
-		cy.get('button#rightClickBtn').click();
-		cy.get('button#rightClickBtn').dblclick();
+			click();
+			dblclick();
+		});
 
-		cy.get('p[id=doubleClickMessage]').should('not.exist');
-		cy.get('p[id=rightClickMessage]').should('not.exist');
-		cy.get('p[id=dynamicClickMessage]').should('not.exist');
+		cy.get('p[id=doubleClickMessage]').as('doubleClickMessage').should('not.exist');
+		cy.get('p[id=rightClickMessage]').as('rightClickMessage').should('not.exist');
+		cy.get('p[id=dynamicClickMessage]').as('dynamicClickMessage').should('not.exist');
 	});
 
 	it('US # GX3-5565 | TC#06: Validar que NO haga nada el button "CLICK" con OTRO EVENTO', () => {
-		cy.get('div.mt-4:nth-child(4) > button').should('be.enabled').and('be.visible');
+		cy.get('button.btn.btn-primary').eq(2).as('clickBtn');
+		cy.get('@clickBtn').within(() => {
+			should('be.enabled');
+			should('be.visible');
 
-		cy.get('div.mt-4:nth-child(4) > button').rightclick();
-		cy.get('div.mt-4:nth-child(4) > button').dblclick();
+			rightclick();
+			dblclick();
+		});
 
-		cy.get('p[id=doubleClickMessage]').should('not.exist');
-		cy.get('p[id=rightClickMessage]').should('not.exist');
-
+		cy.get('p[id=doubleClickMessage]').as('doubleClickMessage').should('not.exist');
+		cy.get('p[id=rightClickMessage]').as('rightClickMessage').should('not.exist');
 		// Al hacer doble click estamos haciendo si o si click
 	});
 });
