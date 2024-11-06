@@ -1,5 +1,3 @@
-const { should } = require('chai');
-
 describe('US GX3-5565 | ToolsQA | Elements | Buttons', () => {
 	beforeEach('PRC: Abrir la url buttons de ToolsQA', () => {
 		cy.visit('https://demoqa.com/buttons');
@@ -46,7 +44,8 @@ describe('US GX3-5565 | ToolsQA | Elements | Buttons', () => {
 
 	it('US # GX3-5565 | TC#03: Validar comportamiento del button "CLICK" al hacer click', () => {
 		// button#fcmdZ es un randomId. Hay que localizar el botón de otra manera
-		cy.get('button.btn.btn-primary').eq(2).as('clickBtn');
+		//cy.get('button.btn.btn-primary').eq(2).as('clickBtn');
+		cy.get('button[key=randomId]').as('clickBtn');
 		cy.get('@clickBtn').within(() => {
 			should('exist');
 			should('be.enabled');
