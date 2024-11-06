@@ -1,45 +1,40 @@
 class Selectable {
-	get = {
-		listItems: () => cy.get('#verticalListContainer li'),
-		gridButton: () => cy.get('#demo-tab-grid'),
-		gridItems: () => cy.get('#demo-tabpane-grid li'),
-		listButton: () => cy.get('#demo-tab-list')
-	};
+	constructor() {
+		this.listButton = '#demo-tab-list';
+		this.gridButton = '#demo-tab-grid';
+		this.listItems = '#verticalListContainer li';
+		this.gridItems = '#demo-tabpane-grid li';
+	}
 
-	selectRandomListItem() {
-		return this.get.listItems().then($items => {
+	selectRandomItem(itemsSelector) {
+		return cy.get(itemsSelector).then($items => {
 			const randomIndex = Math.floor(Math.random() * $items.length);
-			return cy.wrap($items).eq(randomIndex).click();
+			cy.wrap($items[randomIndex]).click();
 		});
 	}
 
-	deselectListItem() {
-		return this.get.listItems().then($items => {
-			const selectedItem = $items.filter('.active');
-			return cy.wrap(selectedItem).click();
-		});
+	selectRandomListItem() {
+		return this.selectRandomItem(this.listItems);
 	}
 
 	selectRandomGridItem() {
-		return this.get.gridItems().then($items => {
-			const randomIndex = Math.floor(Math.random() * $items.length);
-			return cy.wrap($items).eq(randomIndex).click();
-		});
+		return this.selectRandomItem(this.gridItems);
+	}
+
+	deselectListItem() {
+		return cy.get(this.listItems).filter('.active').first().click();
 	}
 
 	deselectGridItem() {
-		return this.get.gridItems().then($items => {
-			const selectedGridItem = $items.filter('.active');
-			return cy.wrap(selectedGridItem).click();
-		});
+		return cy.get(this.gridItems).filter('.active').first().click();
 	}
 
 	openListTab() {
-		return this.get.listButton().click();
+		return cy.get(this.listButton).click().should('have.class', 'active');
 	}
 
 	openGridTab() {
-		return this.get.gridButton().click();
+		return cy.get(this.gridButton).click().should('have.class', 'active');
 	}
 }
 
