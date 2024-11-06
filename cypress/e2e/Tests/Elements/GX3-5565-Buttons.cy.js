@@ -20,12 +20,10 @@ describe('US GX3-5565 | ToolsQA | Elements | Buttons', () => {
 
 	it('US # GX3-5565 | TC#03: Validar comportamiento del button "CLICK" al hacer click', () => {
 		// button#fcmdZ es un randomId. Hay que localizar el botón de otra manera
+		cy.get('button.btn.btn-primary').eq(2).as('clickBtn');
 
-		//cy.get('div.mt-4 button.btn.btn-primary').children('button#rightClickBtn').next('button').as('clickBtn').should('exist');
-		//.should('exist');
-
-		cy.get('div.mt-4:nth-child(4) > button').should('exist').and('be.enabled').and('be.visible').and('contain.text', 'Click Me');
-		cy.get('div.mt-4:nth-child(4) > button').click();
+		cy.get('@clickBtn').should('exist').and('be.enabled').and('be.visible').and('contain.text', 'Click Me');
+		cy.get('@clickBtn').click();
 
 		cy.get('p[id=dynamicClickMessage]').should('exist').and('be.visible').and('contain.text', 'You have done a dynamic click');
 	});
