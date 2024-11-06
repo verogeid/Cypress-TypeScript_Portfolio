@@ -11,9 +11,7 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	it('US # GX3-5484 | TC#01: Validar que SI se muestre mensaje si los CAMPOS estan BIEN rellenados', () => {
-		/* https://www.infomaniak.com/es/asistencia/faq/438/descubrir-los-caracteres-permitidos-para-una-direccion-de-correo-electronico
-		El nombre de usuario debiera poder empezar o finalizar con punto*/
-
+		/* https://www.infomaniak.com/es/asistencia/faq/438/descubrir-los-caracteres-permitidos-para-una-direccion-de-correo-electronico*/
 		cy.get('input#userName').type(dataForm.UserName.valid[0]);
 		cy.get('input#userEmail').type(dataForm.Email.valid[1]);
 		cy.get('textarea#currentAddress').type(dataForm.CurrentAddress.valid[0]);
@@ -63,8 +61,6 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 
 		//Validar que la clase existe
 		cy.get('.mr-sm-2.field-error.form-control').should('exist');
-		// Validar que el borde es rojo
-		//cy.get('.mr-sm-2.field-error.form-control').should('have.css', 'border-color', 'rgb(255, 0, 0)');
 	});
 
 	it('US # GX3-5484 | TC#05: Validar que el input EMAIL tenga BORDE si NO tiene USUARIO', () => {
@@ -73,8 +69,6 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 
 		//Validar que la clase existe
 		cy.get('.mr-sm-2.field-error.form-control').should('exist');
-		// Validar que el borde es rojo
-		//cy.get('.mr-sm-2.field-error.form-control').should('have.css', 'border-color', 'rgb(255, 0, 0)');
 	});
 
 	it('US # GX3-5484 | TC#06: Validar que el input EMAIL tenga BORDE si NO tiene SUBDOMINIO', () => {
@@ -83,8 +77,6 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 
 		//Validar que la clase existe
 		cy.get('.mr-sm-2.field-error.form-control').should('exist');
-		// Validar que el borde es rojo
-		//cy.get('.mr-sm-2.field-error.form-control').should('have.css', 'border-color', 'rgb(255, 0, 0)');
 	});
 
 	it('US # GX3-5484 | TC#07: Validar que el input EMAIL tenga BORDE si no tiene DOMINIO', () => {
@@ -93,8 +85,6 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 
 		//Validar que la clase existe
 		cy.get('.mr-sm-2.field-error.form-control').should('exist');
-		// Validar que el borde es rojo
-		//cy.get('.mr-sm-2.field-error.form-control').should('have.css', 'border-color', 'rgb(255, 0, 0)');
 	});
 
 	it('US # GX3-5484 | TC#08: Validar que el input EMAIL tenga BORDE si NO tiene un DOMINIO VÁLIDO', () => {
@@ -103,8 +93,6 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 
 		//Validar que la clase existe
 		cy.get('.mr-sm-2.field-error.form-control').should('exist');
-		// Validar que el borde es rojo
-		//cy.get('.mr-sm-2.field-error.form-control').should('have.css', 'border-color', 'rgb(255, 0, 0)');
 	});
 
 	it('US # GX3-5484 | TC#09: Validar que el input EMAIL tenga BORDE si contiene DOS ARROBAS', () => {
