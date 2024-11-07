@@ -7,42 +7,62 @@ class TextBoxPage {
 		this.submitButton = '#submit';
 	}
 
+	type(selector, value) {
+		cy.root().find(selector).type(value);
+	}
+
+	verifyOutput(selector, value) {
+		cy.root().find(selector).should('have.value', value);
+	}
+
+	verifyNoOutput(selector) {
+		cy.root().find(selector).should('not.have.value');
+	}
+
+	verifyError(selector) {
+		cy.root().find(selector).should('have.class', 'field-error');
+	}
+
+	clickButton() {
+		cy.root().find(this.submitButton).click();
+	}
+
 	enterFullName(name) {
-		cy.get(this.fullNameInput).type(name);
+		this.type(this.fullNameInput, name);
 	}
 
 	enterEmail(email) {
-		cy.get(this.emailInput).type(email);
+		this.type(this.emailInput, email);
 	}
 
 	enterCurrentAddress(address) {
-		cy.get(this.currentAddressInput).type(address);
+		this.type(this.currentAddressInput, address);
 	}
 
 	enterPermanentAddress(address) {
-		cy.get(this.permanentAddressInput).type(address);
+		this.type(this.permanentAddressInput, address);
 	}
 
 	submitForm() {
-		cy.get(this.submitButton).click();
+		this.clickButton();
 	}
 
-	verifyOutput(name, email, currentAddress, permanentAddress) {
-		cy.get('#name').should('contain.text', name);
-		cy.get('#email').should('contain.text', email);
-		cy.get('#currentAddress.mb-1').should('contain.text', currentAddress);
-		cy.get('#permanentAddress.mb-1').should('contain.text', permanentAddress);
+	verifyFormSubmission(name, email, currentAddress, permanentAddress) {
+		this.verifyOutput(this.fullNameInput, name);
+		this.verifyOutput(this.emailInput, email);
+		this.verifyOutput(this.currentAddressInput, currentAddress);
+		this.verifyOutput(this.permanentAddressInput, permanentAddress);
 	}
 
-	verifyNoOutput() {
-		cy.get('#name').should('not.exist');
-		cy.get('#email').should('not.exist');
-		cy.get('#currentAddress.mb-1').should('not.exist');
-		cy.get('#permanentAddress.mb-1').should('not.exist');
+	verifyNoOutputForm() {
+		this.verifyNoOutput(this.fullNameInput);
+		this.verifyNoOutput(this.emailInput);
+		this.verifyNoOutput(this.currentAddressInput);
+		this.verifyNoOutput(this.permanentAddressInput);
 	}
 
 	verifyEmailError() {
-		cy.get(this.emailInput).should('have.class', 'field-error');
+		this.verifyError(this.emailInput);
 	}
 }
 

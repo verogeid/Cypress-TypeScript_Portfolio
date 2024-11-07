@@ -8,7 +8,7 @@ describe('GX3-5376 | TS: ToolsQA | Interactions | Selectable', () => {
 
 	it('GX3-5376 | TC1: Validar que la pestaña "List" se muestre por defecto', () => {
 		selectablePage.openListTab();
-		cy.get(selectablePage.listButton).should('have.class', 'active');
+		cy.root().find(selectablePage.listButton).should('have.class', 'active');
 	});
 
 	it('GX3-5376 | TC2: Validar que se pueda seleccionar un ítem aleatorio en la pestaña "List"', () => {

@@ -7,10 +7,14 @@ class Selectable {
 	}
 
 	selectRandomItem(itemsSelector) {
-		return cy.get(itemsSelector).then($items => {
-			const randomIndex = Math.floor(Math.random() * $items.length);
-			cy.wrap($items[randomIndex]).click();
-		});
+		return cy
+			.root()
+			.find(itemsSelector)
+			.should('be.visible')
+			.then($items => {
+				const randomIndex = Math.floor(Math.random() * $items.length);
+				cy.wrap($items[randomIndex]).click();
+			});
 	}
 
 	selectRandomListItem() {
@@ -22,19 +26,19 @@ class Selectable {
 	}
 
 	deselectListItem() {
-		return cy.get(this.listItems).filter('.active').first().click();
+		return cy.root().find(this.listItems).filter('.active').first().click();
 	}
 
 	deselectGridItem() {
-		return cy.get(this.gridItems).filter('.active').first().click();
+		return cy.root().find(this.gridItems).filter('.active').first().click();
 	}
 
 	openListTab() {
-		return cy.get(this.listButton).click().should('have.class', 'active');
+		return cy.root().find(this.listButton).click().should('have.class', 'active');
 	}
 
 	openGridTab() {
-		return cy.get(this.gridButton).click().should('have.class', 'active');
+		return cy.root().find(this.gridButton).click().should('have.class', 'active');
 	}
 }
 
