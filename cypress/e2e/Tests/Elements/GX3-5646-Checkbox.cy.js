@@ -65,24 +65,27 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 
 	it('GX3-5661 | TC#03: Validar comportamiento de toggles intermedios', () => {
 		//Abrir la rama principal
-		cy.get('.rct-collapse.rct-collapse-btn').first().as('btnToggle').click();
+		cy.get('.rct-collapse.rct-collapse-btn').as('btnToggle').first().click();
 
-		// Obtener la lista de nodos
-		cy.get('li[class^="rct-node"]').as('lstNodes');
+		// Obtener la lista de nodos (contiene span, que contiene button y label)
+		cy.get('li[class^="rct-node rct-node-parent"]')
+			.as('lstNodes')
+			.then($checkboxItems => {
+				const intListIndex = $checkboxItems.length;
+				const intIndexRandom = Math.floor(Math.random() * intListIndex);
 
-		var intListLength = 0;
+				// Capturar el botón para trabajar con él
+				cy.wrap($checkboxItems[intIndexRandom]).find('button.rct-collapse.rct-collapse-btn').as('btnWrapped').click();
 
-		cy.get('@lstNodes')
-			.should('have.length.above', 0)
-			.then(elm => {
-				intListLength = elm.length;
-			});
-		window.alert(intListLength);
-
-		const indexRandom = Cypress._.random(0, intListLength - 1);
-
-		cy.get('@lstNodes').eq(indexRandom).click();
-	});
+				cy.get('@btnWrapped')
+					.should('exist')
+					.and('have.length.above', 0)
+					.within($the => {
+						cy.get('svg').should('have.class', 'rct-icon rct-icon-expand-open');
+						//cy.log(cy.get($the.parent().find('label span.rct-title')));
+					}); // within
+			}); // then
+	}); // it
 
 	it('GX3-5661 | TC#04: Validar que muestre mensaje al marcar checkboxs', () => {});
 });
