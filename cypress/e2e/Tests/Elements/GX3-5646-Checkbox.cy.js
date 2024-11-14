@@ -64,27 +64,42 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 	});
 
 	it('GX3-5661 | TC#03: Validar comportamiento de toggles intermedios', () => {
-		//Abrir la rama principal
-		cy.get('.rct-collapse.rct-collapse-btn').as('btnToggle').first().click();
+		/* ESTRUCTURA DEL ARBOL
+			ol
+				li rct-node rct-node-parent rct-node-expanded --> RAMAS
+					span rct-text
+						button rct-collapse rct-collapse-btn
+						label tree-node-xxxx
+							input tree-node-xxxx
+							span rct-checkbox
+							span rct-node-icon
+							span rct-title
+					ol
+						li rct-node rct-node-leaf --> HOJAS
+							span rct-text
+								span rct-collapse
+									span rct-icon
+								label tree-node-xxxx
+									input tree-node-xxxx
+									span rct-check-box
+									span rct-node-icon
+									span rct-title
 
-		// Obtener la lista de nodos (contiene span, que contiene button y label)
-		cy.get('li[class^="rct-node rct-node-parent"]')
-			.as('lstNodes')
-			.then($checkboxItems => {
-				const intListIndex = $checkboxItems.length;
-				const intIndexRandom = Math.floor(Math.random() * intListIndex);
+		ESTRUCTURA DEL ARBOL */
 
-				// Capturar el botón para trabajar con él
-				cy.wrap($checkboxItems[intIndexRandom]).find('button.rct-collapse.rct-collapse-btn').as('btnWrapped').click();
+		function fAbrirNodo() {
+			cy.log('ENTRADA fAbrirNodo');
 
-				cy.get('@btnWrapped')
-					.should('exist')
-					.and('have.length.above', 0)
-					.within($the => {
-						cy.get('svg').should('have.class', 'rct-icon rct-icon-expand-open');
-						//cy.log(cy.get($the.parent().find('label span.rct-title')));
-					}); // within
-			}); // then
+			cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"] button').each($element => {
+				cy.wrap($element).click();
+
+				fAbrirNodo();
+			});
+
+			cy.log('SALIDA fAbrirNodo');
+		}
+
+		fAbrirNodo();
 	}); // it
 
 	it('GX3-5661 | TC#04: Validar que muestre mensaje al marcar checkboxs', () => {});
