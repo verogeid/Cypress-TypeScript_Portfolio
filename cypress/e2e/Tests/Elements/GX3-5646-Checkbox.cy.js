@@ -87,19 +87,49 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 
 		ESTRUCTURA DEL ARBOL */
 
-		function fAbrirNodo() {
-			cy.log('ENTRADA fAbrirNodo');
+		function fExpandNode() {
+			cy.log('ENTRADA fExpandNode');
 
-			cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"] button').each($element => {
-				cy.wrap($element).click();
+			cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"]').then($the => {
+				// Obtener el recuento de elementos
+				const intCountNodes = Cypress.$($the).length;
 
-				fAbrirNodo();
+				// Localizar la lista de toggles collapsados
+				cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"]').as('btnCollapsedToggle');
+
+				// Hacer click en el primer botón
+				cy.get('@btnCollapsedToggle').find('button').first().click();
+
+				if (intCountNodes > 1) {
+					// recorrer los toggles localizados
+					cy.wrap($the).each(index => {
+						cy.get('@btnCollapsedToggle').find('button').first().click();
+					});
+				}
 			});
 
-			cy.log('SALIDA fAbrirNodo');
+			cy.log('--- SALE DEL BUCLE ---');
+
+			// si se expandieron toggles puede haber nuevos collapsados
+			cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"]').as('btnCollapsedToggle');
+
+			// si existen collapsados
+			// ref: https://testgrid.io/blog/how-to-check-if-an-element-exists-or-not-using-cypress/
+			if (cy.get('@btnCollapsedToggle').should('exist')) {
+				cy.get('@btnCollapsedToggle').then($element => {
+					if ($element) {
+						cy.log('+++ SI hay más toggles +++');
+
+						fExpandNode();
+					}
+				});
+			}
+
+			cy.log('SALIDA fExpandNode');
 		}
 
-		fAbrirNodo();
+		// No sabemos que altura tiene el árbol, por lo que usamos una recursiva
+		fExpandNode();
 	}); // it
 
 	it('GX3-5661 | TC#04: Validar que muestre mensaje al marcar checkboxs', () => {});
