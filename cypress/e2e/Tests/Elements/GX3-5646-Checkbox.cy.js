@@ -115,15 +115,13 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 
 			// si existen collapsados
 			// ref: https://testgrid.io/blog/how-to-check-if-an-element-exists-or-not-using-cypress/
-			if (cy.get('@btnCollapsedToggle').should('exist')) {
-				cy.get('@btnCollapsedToggle').then($element => {
-					if ($element) {
-						cy.log('+++ SI hay más toggles +++');
+			cy.get('@btnCollapsedToggle').then($element => {
+				if ($element) {
+					cy.log('+++ SI hay más toggles +++');
 
-						fExpandNode();
-					}
-				});
-			}
+					fExpandNode();
+				}
+			});
 
 			cy.log('SALIDA fExpandNode');
 		}
