@@ -30,10 +30,9 @@ describe('US GX3-5565 | ToolsQA | Elements | Buttons', () => {
 
 	it('US # GX3-5565 | TC#03: Validar comportamiento del button "CLICK" al hacer click', () => {
 		// button#fcmdZ es un randomId. Hay que localizar el botón de otra manera
-		cy.get('button.btn.btn-primary').eq(2).as('clickBtn');
-		//cy.get('button.btn.btn-primary').filter('[innerText="Click Me"]').as('clickBtn');
+		cy.get('button.btn.btn-primary').should('contain.text', 'Click Me').not(':contains("Right")').not(':contains("Double")').as('clickBtn');
 
-		cy.get('@clickBtn').should('exist').and('be.enabled').and('be.visible').and('contain.text', 'Click Me');
+		cy.get('@clickBtn').should('exist').and('be.enabled').and('be.visible');
 
 		cy.get('@clickBtn').click();
 
@@ -74,7 +73,7 @@ describe('US GX3-5565 | ToolsQA | Elements | Buttons', () => {
 	});
 
 	it('US # GX3-5565 | TC#06: Validar que NO haga nada el button "CLICK" con OTRO EVENTO', () => {
-		cy.get('button.btn.btn-primary').eq(2).as('clickBtn');
+		cy.get('button.btn.btn-primary').should('contain.text', 'Click Me').not(':contains("Right")').not(':contains("Double")').as('clickBtn');
 
 		cy.get('@clickBtn').should('be.enabled').and('be.visible');
 
