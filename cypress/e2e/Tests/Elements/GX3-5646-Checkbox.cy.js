@@ -1,3 +1,5 @@
+const { exit } = require('process');
+
 describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 	beforeEach('PRC: Abrir url de Checkbox en ToolsQA', () => {
 		cy.visit('https://demoqa.com/checkbox');
@@ -87,47 +89,109 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 
 		ESTRUCTURA DEL ARBOL */
 
-		function fExpandNode() {
-			cy.log('ENTRADA fExpandNode');
+		// PRC: Localizar el botón Expand All y hacer click
+		cy.get('button.rct-option.rct-option-expand-all').as('btnExpandAll').click();
 
-			cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"]').then($the => {
-				// Obtener el recuento de elementos
-				const intCountNodes = Cypress.$($the).length;
+		cy.log('-- INIT Collapse Nodes VALIDATION --');
 
-				// Localizar la lista de toggles collapsados
-				cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"]').as('btnCollapsedToggle');
+		// No debe haber nodos colapsados
+		cy.get('li.rct-node.rct-node-parent.rct-node-collapsed').should('not.exist');
 
-				// Hacer click en el primer botón
-				cy.get('@btnCollapsedToggle').find('button').first().click();
+		// Localizar la lista de Li
+		cy.get('li[class^="rct-node rct-node-parent rct-node-"]').as('expLiNodes');
 
-				if (intCountNodes > 1) {
-					// recorrer los toggles localizados
-					cy.wrap($the).each(index => {
-						cy.get('@btnCollapsedToggle').find('button').first().click();
-					});
-				}
+		// Debe haber al menos 1
+		cy.get('@expLiNodes').should('exist').and('be.visible').and('have.length.above', 0);
+
+		cy.get('@expLiNodes').then($theList => {
+			// Obtener el recuento de elementos
+			const intCountNodes = Cypress.$($theList).length;
+
+			cy.log(`Nodes count = ${intCountNodes}`);
+
+			const arrListRev = $theList.toArray().reverse();
+
+			arrListRev.forEach(($the, index) => {
+				cy.get($the).within(() => {
+					// Debe haber subelementos
+					cy.get('ol').should('exist');
+
+					// Debe tener boton Toggle
+					cy.get('button[title="Toggle"]').first().as('btnToggle').should('exist').and('be.visible').and('be.enabled').click();
+
+					// Tras pulsar el toggle
+					// NO debe haber subelementos
+					cy.get('ol').should('not.exist');
+				});
+
+				// La clase del Li ha cambiado a Collapsed
+				cy.get($the).should('have.class', 'rct-node-collapsed');
 			});
 
-			cy.log('--- SALE DEL BUCLE ---');
+			cy.log('##################################\n     ## INIT Expand Nodes VALIDATION ##\n     ##################################');
 
-			// si se expandieron toggles puede haber nuevos collapsados
-			cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"]').as('btnCollapsedToggle');
+			// No debe haber nodos expandidos
+			cy.get('li.rct-node.rct-node-parent.rct-node-expanded').should('not.exist');
 
-			// si existen collapsados
-			// ref: https://testgrid.io/blog/how-to-check-if-an-element-exists-or-not-using-cypress/
-			cy.get('@btnCollapsedToggle').then($element => {
-				if ($element) {
-					cy.log('+++ SI hay más toggles +++');
+			var vCount = 1;
+			const vMaxCount = intCountNodes;
 
-					fExpandNode();
-				}
-			});
+			function fExpandNodes() {
+				if (vCount >= vMaxCount) exit();
 
-			cy.log('SALIDA fExpandNode');
-		}
+				// Inicializar un contador para los elementos
+				let contador = 0;
 
-		// No sabemos que altura tiene el árbol, por lo que usamos una recursiva
-		fExpandNode();
+				cy.get('li[class="rct-node rct-node-parent rct-node-collapsed"]').as('colLiNodes');
+
+				cy.get('@colLiNodes').then($theList => {
+					// Obtener el recuento de elementos
+					const intCountNodes = Cypress.$($theList).length;
+
+					cy.log(`Nodes count = ${intCountNodes}`);
+
+					// Crear un bucle para recorrer la lista
+					while (contador < intCountNodes) {
+						// Seleccionar el primer elemento de la lista
+						cy.get('@colLiNodes')
+							.first()
+							.within($the => {
+								// Debe NO haber subelementos
+								cy.get('ol').should('not.exist');
+
+								// Debe tener boton Toggle
+								cy.get('button[title="Toggle"]').first().as('btnToggle').should('exist').and('be.visible').and('be.enabled');
+
+								cy.get('.rct-title')
+									.invoke('text')
+									.then(texto => {
+										cy.log(`Nodo que se expande: ${texto}`);
+									});
+
+								cy.get('@btnToggle').click();
+
+								vCount = vCount + 1;
+							});
+
+						// incrementamos el contador
+						contador++;
+
+						cy.log(`vCount: ${vCount} \n vMaxCount: ${vMaxCount}`);
+
+						if (vCount < vMaxCount) {
+							cy.log('entra');
+							fExpandNodes();
+							break;
+						}
+					}
+				});
+			}
+
+			fExpandNodes();
+		});
+
+		// NO debe haber nodos collapsados
+		cy.get('li.rct-node.rct-node-parent.rct-node-collapsed').should('not.exist');
 	}); // it
 
 	it('GX3-5661 | TC#04: Validar que muestre mensaje al marcar checkboxs', () => {});
