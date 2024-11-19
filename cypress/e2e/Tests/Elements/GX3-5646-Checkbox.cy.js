@@ -92,8 +92,6 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 
 		cy.log('####################################\n     ##  INIT Collapse Nodes VALIDATION  ##\n     ######################################');
 
-		cy.log('-- INIT Collapse Nodes VALIDATION --');
-
 		// No debe haber nodos colapsados
 		cy.get('li.rct-node.rct-node-parent.rct-node-collapsed').should('not.exist');
 
