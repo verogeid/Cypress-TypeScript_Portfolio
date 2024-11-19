@@ -1,5 +1,3 @@
-const { exit } = require('process');
-
 describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 	beforeEach('PRC: Abrir url de Checkbox en ToolsQA', () => {
 		cy.visit('https://demoqa.com/checkbox');
@@ -92,6 +90,8 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 		// PRC: Localizar el botón Expand All y hacer click
 		cy.get('button.rct-option.rct-option-expand-all').as('btnExpandAll').click();
 
+		cy.log('####################################\n     ##  INIT Collapse Nodes VALIDATION  ##\n     ######################################');
+
 		cy.log('-- INIT Collapse Nodes VALIDATION --');
 
 		// No debe haber nodos colapsados
@@ -128,13 +128,7 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 				cy.get($the).should('have.class', 'rct-node-collapsed');
 			});
 
-			cy.log('##################################\n     ## INIT Expand Nodes VALIDATION ##\n     ##################################');
-
-			// No debe haber nodos expandidos
-			cy.get('li.rct-node.rct-node-parent.rct-node-expanded').should('not.exist');
-
-			var vCount = 1;
-			const vMaxCount = intCountNodes;
+			cy.log('##################################\n     ##  INIT Expand Nodes VALIDATION  ##\n     ####################################');
 
 			function fExpandNodes() {
 				if (vCount >= vMaxCount) exit();
@@ -179,14 +173,23 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 						cy.log(`vCount: ${vCount} \n vMaxCount: ${vMaxCount}`);
 
 						if (vCount < vMaxCount) {
-							cy.log('entra');
+							// Expandir las subramas
 							fExpandNodes();
+
+							// Finaliza el bucle de esta llamada
 							break;
 						}
-					}
-				});
-			}
+					} // while
+				}); // then
+			} // function fExpandNodes()
 
+			// No debe haber nodos expandidos
+			cy.get('li.rct-node.rct-node-parent.rct-node-expanded').should('not.exist');
+
+			var vCount = 1;
+			const vMaxCount = intCountNodes;
+
+			// expandir la primera rama, y las sucesivas si las hubiere
 			fExpandNodes();
 		});
 
@@ -194,5 +197,76 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 		cy.get('li.rct-node.rct-node-parent.rct-node-collapsed').should('not.exist');
 	}); // it
 
-	it('GX3-5661 | TC#04: Validar que muestre mensaje al marcar checkboxs', () => {});
+	it('GX3-5661 | TC#04: Validar comportamiento de checkboxes', () => {
+		// PRC: Localizar el botón Expand All y hacer click
+		cy.get('button.rct-option.rct-option-expand-all').as('btnExpandAll').click();
+
+		cy.get('li[class^="rct-node rct-node-parent"]').then($checkboxItems => {
+			// Obtiene un índice aleatorio
+			const randomIndex = Math.floor(Math.random() * ($checkboxItems.length - 1)) + 1;
+
+			cy.log(`Random: ${randomIndex} \n Length: ${$checkboxItems.length}`);
+
+			// No se puede marcar directamente el input porque es invisible
+			// Selecciona el checkbox aleatorio y hace clic
+			cy.get($checkboxItems[randomIndex]).within($the => {
+				cy.get('.rct-title').as('chkName');
+
+				cy.get('@chkName')
+					.first()
+					.invoke('text')
+					.then(texto => {
+						cy.log(`Nodo que se marca: ${texto}`);
+					});
+
+				cy.get('span.rct-checkbox').as('chkListElement');
+				cy.get('@chkListElement').first().click();
+
+				// Comprobar que los subelementos se han seleccionado
+				cy.get('@chkListElement').then($theList => {
+					// Obtener el recuento de elementos
+					const intCountNodes = Cypress.$($theList).length;
+
+					// Los checks estan marcados
+					cy.get('svg.rct-icon.rct-icon-check').as('subElement').should('exist').and('have.length', intCountNodes);
+
+					//Los elementos marcados deben estar en el result
+					cy.get('@subElement') //svg
+						.parent() // span rct-checkbox
+						.parent() // label tree-node-xxxx
+						.find('.rct-title') // span rct-title
+						.each($subThe => {
+							cy.get($subThe).parentsUntil('.check-box-tree-wrapper').parent().as('theFather');
+
+							/* Convertir la cadena al mismo formato que muestra Result
+							   Aaaaa Bbbbb.doc -> aaaaaBbbbb (camelCase, sin extensión) */
+							var txtCadena = $subThe.text().toLowerCase().replace('.doc', '');
+							var intPosEspacio = txtCadena.indexOf(' ');
+
+							if (intPosEspacio > 0) {
+								var txtNewCadena = txtCadena.slice(0, intPosEspacio) + txtCadena.charAt(intPosEspacio + 1).toUpperCase() + txtCadena.slice(intPosEspacio + 2);
+
+								cy.log(`Texto original: ${$subThe.text()} -> Texto parseado: ${txtNewCadena}`);
+
+								cy.get('@theFather').find('span.text-success').as('txtResult').should('exist').and('include.text', txtNewCadena);
+							} else {
+								cy.log(`Texto original: ${$subThe.text()} -> Texto parseado: ${txtCadena}`);
+
+								cy.get('@theFather').find('span.text-success').as('txtResult').should('exist').and('include.text', txtCadena);
+							} // if
+						}); // @subElement each
+				}); // @chkListElement then
+
+				// No debe haber subelementos sin seleccionar o seleccionados a medias
+				cy.get('svg[class^="rct-icon rct-icon"][class$="-uncheck"][class$="-half-check"]').should('not.exist');
+
+				// El padre (li) del padre (ol) debe estar marcado o semimarcado
+				cy.get($the).parent().parent().first().as('liParent').find('svg[class^="rct-icon rct-icon"][class$="-check"][class$="-half-check"]').should('exist');
+			}); // $checkboxItems[randomIndex] within
+
+			// El Result debe ser visible
+			cy.get('#result').should('exist').and('be.visible');
+			cy.get('span.text-success').should('exist').and('be.visible');
+		}); // li then
+	}); // it TC04
 });
