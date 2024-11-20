@@ -10,7 +10,7 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 		// Localizar el botón Expand
 		cy.get(checkboxTreePage.getSelector.buttonExpandAll()).as('btnExpandAll');
 
-		checkboxTreePage.validateExpandPRC();
+		checkboxTreePage.validateExpandTreePRC();
 
 		// tras hacer click en Expand All
 		cy.get('@btnExpandAll').should('exist').click();
@@ -33,7 +33,7 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 		// Localizar el botón Collapse All
 		cy.get(checkboxTreePage.getSelector.buttonCollapseAll()).as('btnCollapseAll');
 
-		checkboxTreePage.validateCollapsePRC();
+		checkboxTreePage.validateCollapseTreePRC();
 
 		// tras hacer click en Collapse
 		cy.get('@btnCollapseAll').should('exist').click();
@@ -45,93 +45,31 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 		cy.get('@imgToggleClosed').should('exist'); // y estar cerrada la rama
 	});
 
-	it('GX3-5661 | TC#03: Validar comportamiento de toggles intermedios', () => {
+	it('GX3-5661 | TC#03: Validar comportamiento de expansión de toggles', () => {
+		// comprobar que el árbol esta en el estado correcto antes de hacer nada
+		checkboxTreePage.validateToggleExpandiblePRC();
+
+		checkboxTreePage.expandNodes();
+
+		// Comprobar que el estado del árbol es correcto tras la expansión
+		checkboxTreePage.validateToggleExpandiblePSC();
+	});
+
+	it('GX3-5661 | TC#04: Validar comportamiento de colapso de toggles', () => {
 		// PRC: Localizar el botón Expand All y hacer click
 		cy.get(checkboxTreePage.getSelector.buttonExpandAll()).as('btnExpandAll').click();
 
-		// Comprobar que el toggle esta en el estado correcto
+		// Comprobar que el toggle esta en el estado correcto antes de empezar
 		checkboxTreePage.validateToggleCollapsablePRC();
 
-		// Localizar la lista de Li
-		cy.get(checkboxTreePage.getSelector.liNodes()).as('expLiNodes');
+		// Colapsar en orden inverso los nodos abiertos
+		checkboxTreePage.collapseNodes();
 
-		// Debe haber al menos 1
-		cy.get('@expLiNodes').should('exist').and('be.visible').and('have.length.above', 0);
-
-		cy.get('@expLiNodes').then($theList => {
-			// Obtener el recuento de elementos
-			const intCountNodes = Cypress.$($theList).length;
-
-			// Recorrer en orden inverso la lista de elementos
-			// para ir cerrandolos uno a uno.
-			// Si no la recorremos asi cerrariamos los nodos contenedores
-			const arrListRev = $theList.toArray().reverse();
-
-			arrListRev.forEach(($the, index) => {
-				checkboxTreePage.validateToggleClick($the);
-			});
-
-			// funcion recursiva para abrir los nodos.
-			// localiza el primero, lo expande y busca si hay más,
-			// en cuyo caso vuelve a llamar a la función para expandir el nuevo nodo
-			function fExpandNodes() {
-				if (vCount >= vMaxCount) exit();
-
-				// Inicializar un contador para los elementos
-				let contador = 0;
-
-				cy.get(checkboxTreePage.getSelector.liNodesCollapsed()).as('colLiNodes');
-
-				cy.get('@colLiNodes').then($theList => {
-					// Obtener el recuento de elementos
-					const intCountNodes = Cypress.$($theList).length;
-
-					// Crear un bucle para recorrer la lista
-					while (contador < intCountNodes) {
-						// Seleccionar el primer elemento de la lista
-						cy.get('@colLiNodes')
-							.first()
-							.within($the => {
-								// Debe NO haber subelementos
-								cy.get('ol').should('not.exist');
-
-								// Debe tener boton Toggle
-								cy.get(checkboxTreePage.getSelector.buttonToggle()).first().as('btnToggle').should('exist').and('be.visible').and('be.enabled');
-
-								cy.get('@btnToggle').click();
-
-								vCount = vCount + 1;
-							});
-
-						// incrementamos el contador
-						contador++;
-
-						// Si quedan elementos
-						if (vCount < vMaxCount) {
-							// Expandir las dubramas
-							fExpandNodes();
-
-							// Finaliza el bucle de esta llamada
-							break;
-						}
-					} // while
-				}); // then
-			} // function fExpandNodes()
-
-			// comprobar que el árbol esta en el estado correcto
-			checkboxTreePage.validateToggleExpandiblePRC();
-
-			var vCount = 1;
-			const vMaxCount = intCountNodes;
-
-			// expandir la primera rama, y las sucesivas si las hubiere
-			fExpandNodes();
-		});
-
-		checkboxTreePage.validateToggleExpandiblePSC();
+		// Comprobar estado del árbol tras la iteración
+		checkboxTreePage.validateToggleCollapsablePSC();
 	}); // it
 
-	it('GX3-5661 | TC#04: Validar comportamiento de checkboxes', () => {
+	it('GX3-5661 | TC#05: Validar comportamiento de checkboxes', () => {
 		// PRC: Localizar el botón Expand All y hacer click
 		cy.get(checkboxTreePage.getSelector.buttonExpandAll()).as('btnExpandAll').click();
 

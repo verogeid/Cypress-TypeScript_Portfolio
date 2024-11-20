@@ -28,7 +28,7 @@ class CheckboxTree {
 		txtSuccess: () => 'span.text-success'
 	};
 
-	validateCollapsePRC() {
+	validateCollapseTreePRC() {
 		// Localizar el botón de colapso de las ramas
 		cy.get(checkboxTreePage.getSelector.buttonCollapseToggle()).as('btnToggle');
 		// Localizar el primer icono de colapso de las ramas [open | close]
@@ -42,7 +42,7 @@ class CheckboxTree {
 		cy.get('@imgToggle').should('exist').and('have.length.above', 0);
 	}
 
-	validateExpandPRC() {
+	validateExpandTreePRC() {
 		// Localizar el botón de toggle de las ramas
 		cy.get(checkboxTreePage.getSelector.buttonCollapseToggle()).as('btnToggle');
 		// Localizar la primera instancia de toggle de la rama (la posición 0 contiene All)
@@ -59,6 +59,11 @@ class CheckboxTree {
 	validateToggleCollapsablePRC() {
 		// No debe haber nodos colapsados
 		cy.get(checkboxTreePage.getSelector.liNodesCollapsed()).should('not.exist');
+	}
+
+	validateToggleCollapsablePSC() {
+		// Al acabar No debe haber nodos expandidos
+		cy.get(checkboxTreePage.getSelector.liNodesExpanded()).should('not.exist');
 	}
 
 	validateToggleExpandiblePRC() {
@@ -127,6 +132,49 @@ class CheckboxTree {
 		} else {
 			cy.get('@theFather').find(checkboxTreePage.getSelector.txtSuccess()).as('txtResult').should('exist').and('include.text', txtCadena);
 		} // if
+	}
+
+	expandNodes() {
+		const NODE_COLLAPSED = checkboxTreePage.getSelector.liNodesCollapsed();
+
+		const $elements = Cypress.$(NODE_COLLAPSED);
+
+		if ($elements?.length > 0) {
+			cy.wrap($elements)
+				.each($the => {
+					// Debe tener boton Toggle
+					cy.get(checkboxTreePage.getSelector.buttonToggle()).first().as('btnToggle').should('exist').and('be.visible').and('be.enabled');
+
+					cy.wrap($the).find('button').first().click();
+				})
+				.then(() => {
+					checkboxTreePage.expandNodes();
+				});
+		} else {
+			cy.get($elements).should('not.exist');
+		}
+	}
+
+	collapseNodes() {
+		// Localizar la lista de Li
+		cy.get(checkboxTreePage.getSelector.liNodes()).as('expLiNodes');
+
+		// Debe haber al menos 1
+		cy.get('@expLiNodes').should('exist').and('be.visible').and('have.length.above', 0);
+
+		cy.get('@expLiNodes').then($theList => {
+			// Obtener el recuento de elementos
+			const intCountNodes = Cypress.$($theList).length;
+
+			// Recorrer en orden inverso la lista de elementos
+			// para ir cerrandolos uno a uno.
+			// Si no la recorremos asi cerrariamos los nodos contenedores
+			const arrListRev = $theList.toArray().reverse();
+
+			arrListRev.forEach(($the, index) => {
+				checkboxTreePage.validateToggleClick($the);
+			});
+		});
 	}
 }
 
