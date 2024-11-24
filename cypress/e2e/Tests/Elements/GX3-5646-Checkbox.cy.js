@@ -1,4 +1,4 @@
-import { checkboxTreePage } from '@pages/GX3-5646-Checkbox.Page';
+import { objCheckboxTree } from '@pages/GX3-5646-Checkbox.Page';
 
 describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 	beforeEach('PRC: Abrir url de Checkbox en ToolsQA', () => {
@@ -7,14 +7,14 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 	});
 
 	it('GX3-5661 | TC#01: Validar que el boton "Expand All" abra todas las ramas', () => {
-		const BUTTON_EXPAND_ALL = checkboxTreePage.getSelector.buttonExpandAll();
-		const IMG_TOGGLE_OPENED = checkboxTreePage.getSelector.imgToggleOpened();
-		const IMG_TOGGLE_CLOSED = checkboxTreePage.getSelector.imgToggleClosed();
+		const BUTTON_EXPAND_ALL = objCheckboxTree.getSelector.buttonExpandAll();
+		const IMG_TOGGLE_OPENED = objCheckboxTree.getSelector.imgToggleOpened();
+		const IMG_TOGGLE_CLOSED = objCheckboxTree.getSelector.imgToggleClosed();
 
 		// Localizar el botón Expand
 		cy.get(BUTTON_EXPAND_ALL).as('btnExpandAll');
 
-		checkboxTreePage.validateExpandTreePRC();
+		objCheckboxTree.validateExpandTreePRC();
 
 		// tras hacer click en Expand All
 		cy.get('@btnExpandAll').should('exist').click();
@@ -31,9 +31,9 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 	}); // it TC01
 
 	it('GX3-5661 | TC#02: Validar que el boton "Collapse All" cierre todas las ramas', () => {
-		const BUTTON_EXPAND_ALL = checkboxTreePage.getSelector.buttonExpandAll();
-		const BUTTON_COLLAPSE_ALL = checkboxTreePage.getSelector.buttonCollapseAll();
-		const IMG_TOGGLE_CLOSED = checkboxTreePage.getSelector.imgToggleClosed();
+		const BUTTON_EXPAND_ALL = objCheckboxTree.getSelector.buttonExpandAll();
+		const BUTTON_COLLAPSE_ALL = objCheckboxTree.getSelector.buttonCollapseAll();
+		const IMG_TOGGLE_CLOSED = objCheckboxTree.getSelector.imgToggleClosed();
 
 		// PRC: Localizar el botón Expand All y hacer click
 		cy.get(BUTTON_EXPAND_ALL).as('btnExpandAll').click();
@@ -41,7 +41,7 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 		// Localizar el botón Collapse All
 		cy.get(BUTTON_COLLAPSE_ALL).as('btnCollapseAll');
 
-		checkboxTreePage.validateCollapseTreePRC();
+		objCheckboxTree.validateCollapseTreePRC();
 
 		// tras hacer click en Collapse
 		cy.get('@btnCollapseAll').should('exist').click();
@@ -56,39 +56,39 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 
 	it('GX3-5661 | TC#03: Validar que al expandir cada toggle el aspecto cambie adecuadamente', () => {
 		// comprobar que el árbol esta en el estado correcto antes de hacer nada
-		checkboxTreePage.validateToggleExpandiblePRC();
+		objCheckboxTree.validateExpandEachTreeTogglePRC();
 
-		checkboxTreePage.expandNodes();
+		objCheckboxTree.expandEachTreeNode();
 
 		// Comprobar que el estado del árbol es correcto tras la expansión
-		checkboxTreePage.validateToggleExpandiblePSC();
+		objCheckboxTree.validateExpandEachTreeTogglePSC();
 	}); // it TC03
 
 	it('GX3-5661 | TC#04: Validar que al colapsar cada toggle el aspecto cambie adecuadamente', () => {
-		const BUTTON_EXPAND_ALL = checkboxTreePage.getSelector.buttonExpandAll();
+		const BUTTON_EXPAND_ALL = objCheckboxTree.getSelector.buttonExpandAll();
 
 		// PRC: Localizar el botón Expand All y hacer click
 		cy.get(BUTTON_EXPAND_ALL).as('btnExpandAll').click();
 
 		// Comprobar que el toggle esta en el estado correcto antes de empezar
-		checkboxTreePage.validateToggleCollapsablePRC();
+		objCheckboxTree.validateCollapseEachTreeToggleReversePRC();
 
 		// Colapsar en orden inverso los nodos abiertos
-		checkboxTreePage.collapseNodes();
+		objCheckboxTree.collapseEachTreeNodesReverse();
 
 		// Comprobar estado del árbol tras la iteración
-		checkboxTreePage.validateToggleCollapsablePSC();
+		objCheckboxTree.validateCollapseEachTreeToggleReversePRC();
 	}); // it TC04
 
 	it('GX3-5661 | TC#05: Validar que al marcar un checkbox contenedor se seleccionen los subelementos y se muestre el texto de la selección correctamente', () => {
-		const BUTTON_EXPAND_ALL = checkboxTreePage.getSelector.buttonExpandAll();
-		const LI_NODES = checkboxTreePage.getSelector.liNodes();
-		const CHECKBOX_TITLE = checkboxTreePage.getSelector.checkboxTitle();
-		const CHECKBOX_ELEMENT = checkboxTreePage.getSelector.checkboxElement();
-		const IMG_CHECKBOX_UNCHECKED_OR_HALF_CHECKED = checkboxTreePage.getSelector.imgCheckboxUncheckedOrHalfChecked();
-		const IMG_CHECKBOX_CHECKED_OR_HALF_CHECKED = checkboxTreePage.getSelector.imgCheckboxCheckedOrHalfChecked();
-		const TXT_RESULT = checkboxTreePage.getSelector.txtResult();
-		const TXT_SUCCESS = checkboxTreePage.getSelector.txtSuccess();
+		const BUTTON_EXPAND_ALL = objCheckboxTree.getSelector.buttonExpandAll();
+		const LI_NODES = objCheckboxTree.getSelector.liNodes();
+		const CHECKBOX_TITLE = objCheckboxTree.getSelector.checkboxTitle();
+		const CHECKBOX_ELEMENT = objCheckboxTree.getSelector.checkboxElement();
+		const IMG_CHECKBOX_UNCHECKED_OR_HALF_CHECKED = objCheckboxTree.getSelector.imgCheckboxUncheckedOrHalfChecked();
+		const IMG_CHECKBOX_CHECKED_OR_HALF_CHECKED = objCheckboxTree.getSelector.imgCheckboxCheckedOrHalfChecked();
+		const TXT_RESULT = objCheckboxTree.getSelector.txtResult();
+		const TXT_SUCCESS = objCheckboxTree.getSelector.txtSuccess();
 
 		// PRC: Localizar el botón Expand All y hacer click
 		cy.get(BUTTON_EXPAND_ALL).as('btnExpandAll').click();
@@ -106,7 +106,7 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 				cy.get('@chkListElement').first().click();
 
 				// Comprobar que los subelementos se han seleccionado
-				checkboxTreePage.validateSubNodesSelection('@chkListElement');
+				objCheckboxTree.validateSubNodesSelection('@chkListElement');
 
 				// No debe haber subelementos sin seleccionar o seleccionados a medias
 				cy.get(IMG_CHECKBOX_UNCHECKED_OR_HALF_CHECKED).should('not.exist');
