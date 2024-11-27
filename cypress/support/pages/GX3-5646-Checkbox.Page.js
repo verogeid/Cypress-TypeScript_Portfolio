@@ -31,9 +31,9 @@ class CheckboxTree {
 
 	// Called in GX3-5646 | TC01
 	validateExpandTreePRC() {
-		const BUTTON_COLLAPSE_TOGGLE = objCheckboxTree.getSelector.buttonCollapseToggle();
-		const IMG_TOGGLE_BUTTON = objCheckboxTree.getSelector.imgToggleButton();
-		const IMG_CHECKBOX = objCheckboxTree.getSelector.imgCheckbox();
+		const BUTTON_COLLAPSE_TOGGLE = this.getSelector.buttonCollapseToggle();
+		const IMG_TOGGLE_BUTTON = this.getSelector.imgToggleButton();
+		const IMG_CHECKBOX = this.getSelector.imgCheckbox();
 
 		// Localizar el botón de toggle de las ramas
 		cy.get(BUTTON_COLLAPSE_TOGGLE).as('btnToggle');
@@ -50,9 +50,9 @@ class CheckboxTree {
 
 	// Called in GX3-5646 | TC02
 	validateCollapseTreePRC() {
-		const BUTTON_COLLAPSE_TOGGLE = objCheckboxTree.getSelector.buttonCollapseToggle();
-		const IMG_TOGGLE_BUTTON = objCheckboxTree.getSelector.imgToggleButton();
-		const IMG_CHECKBOX = objCheckboxTree.getSelector.imgCheckbox();
+		const BUTTON_COLLAPSE_TOGGLE = this.getSelector.buttonCollapseToggle();
+		const IMG_TOGGLE_BUTTON = this.getSelector.imgToggleButton();
+		const IMG_CHECKBOX = this.getSelector.imgCheckbox();
 
 		// Localizar el botón de colapso de las ramas
 		cy.get(BUTTON_COLLAPSE_TOGGLE).as('btnToggle');
@@ -69,25 +69,25 @@ class CheckboxTree {
 
 	// Called in GX3-5646 | TC03
 	validateExpandEachTreeTogglePRC() {
-		const LI_NODES_EXPANDED = objCheckboxTree.getSelector.liNodesExpanded();
+		const LI_NODES_EXPANDED = this.getSelector.liNodesExpanded();
 
 		// No debe haber nodos expandidos
 		cy.get(LI_NODES_EXPANDED).should('not.exist');
 	}
 
 	validateExpandEachTreeTogglePSC() {
-		const LI_NODES_COLLAPSED = objCheckboxTree.getSelector.liNodesCollapsed();
+		const LI_NODES_COLLAPSED = this.getSelector.liNodesCollapsed();
 
 		// AL acabar NO debe haber nodos collapsados
 		cy.get(LI_NODES_COLLAPSED).should('not.exist');
 	}
 
 	expandEachTreeNode() {
-		const NODE_COLLAPSED = objCheckboxTree.getSelector.liNodesCollapsed();
-		const CLASS_NODE_EXPANDED = objCheckboxTree.getSelector.classNodeExpanded();
-		const CLASS_NODE_COLLAPSED = objCheckboxTree.getSelector.classNodeCollapsed();
-		const IMG_TOGGLE_CLOSED = objCheckboxTree.getSelector.imgToggleClosed();
-		const IMG_TOGGLE_OPENED = objCheckboxTree.getSelector.imgToggleOpened();
+		const NODE_COLLAPSED = this.getSelector.liNodesCollapsed();
+		const CLASS_NODE_EXPANDED = this.getSelector.classNodeExpanded();
+		const CLASS_NODE_COLLAPSED = this.getSelector.classNodeCollapsed();
+		const IMG_TOGGLE_CLOSED = this.getSelector.imgToggleClosed();
+		const IMG_TOGGLE_OPENED = this.getSelector.imgToggleOpened();
 
 		const $elements = Cypress.$(NODE_COLLAPSED);
 
@@ -108,7 +108,7 @@ class CheckboxTree {
 					cy.get($the).find(IMG_TOGGLE_OPENED).should('exist');
 				})
 				.then(() => {
-					objCheckboxTree.expandEachTreeNode();
+					this.expandEachTreeNode();
 				});
 		} else {
 			cy.get($elements).should('not.exist');
@@ -117,21 +117,21 @@ class CheckboxTree {
 
 	// Called in GX3-5646 | TC04
 	validateCollapseEachTreeToggleReversePRC() {
-		const LI_NODES_COLLAPSED = objCheckboxTree.getSelector.liNodesCollapsed();
+		const LI_NODES_COLLAPSED = this.getSelector.liNodesCollapsed();
 
 		// No debe haber nodos colapsados
 		cy.get(LI_NODES_COLLAPSED).should('not.exist');
 	}
 
 	validateCollapseEachTreeToggleReversePSC() {
-		const LI_NODES_EXPANDED = objCheckboxTree.getSelector.liNodesExpanded();
+		const LI_NODES_EXPANDED = this.getSelector.liNodesExpanded();
 
 		// Al acabar No debe haber nodos expandidos
 		cy.get(LI_NODES_EXPANDED).should('not.exist');
 	}
 
 	collapseEachTreeNodesReverse() {
-		const LI_NODES = objCheckboxTree.getSelector.liNodes();
+		const LI_NODES = this.getSelector.liNodes();
 
 		// Localizar la lista de Li
 		// Debe haber al menos 1
@@ -144,18 +144,18 @@ class CheckboxTree {
 			const arrListRev = $theList.toArray().reverse();
 
 			arrListRev.forEach($the => {
-				objCheckboxTree.validateCollapseToggleClick($the);
+				this.validateCollapseToggleClick($the);
 			});
 		});
 	}
 
 	// Called in collapseEachTreeNodesReverse method
 	validateCollapseToggleClick(pThe) {
-		const BUTTON_TOGGLE = objCheckboxTree.getSelector.buttonToggle();
-		const CLASS_NODE_EXPANDED = objCheckboxTree.getSelector.classNodeExpanded();
-		const CLASS_NODE_COLLAPSED = objCheckboxTree.getSelector.classNodeCollapsed();
-		const IMG_TOGGLE_CLOSED = objCheckboxTree.getSelector.imgToggleClosed();
-		const IMG_TOGGLE_OPENED = objCheckboxTree.getSelector.imgToggleOpened();
+		const BUTTON_TOGGLE = this.getSelector.buttonToggle();
+		const CLASS_NODE_EXPANDED = this.getSelector.classNodeExpanded();
+		const CLASS_NODE_COLLAPSED = this.getSelector.classNodeCollapsed();
+		const IMG_TOGGLE_CLOSED = this.getSelector.imgToggleClosed();
+		const IMG_TOGGLE_OPENED = this.getSelector.imgToggleOpened();
 
 		cy.get(pThe).within(() => {
 			// El nodo debe estar expandido
@@ -180,9 +180,9 @@ class CheckboxTree {
 
 	// Called in GX3-5646 | TC05
 	validateSubNodesSelection(pSelector) {
-		const CHECKBOX_ELEMENT = objCheckboxTree.getSelector.checkboxElement();
-		const IMG_CHECKBOX_CHECKED = objCheckboxTree.getSelector.imgCheckboxChecked();
-		const CHECKBOX_TITLE = objCheckboxTree.getSelector.checkboxTitle();
+		const CHECKBOX_ELEMENT = this.getSelector.checkboxElement();
+		const IMG_CHECKBOX_CHECKED = this.getSelector.imgCheckboxChecked();
+		const CHECKBOX_TITLE = this.getSelector.checkboxTitle();
 
 		cy.get(pSelector).then($theList => {
 			// Obtener el recuento de elementos
@@ -198,15 +198,15 @@ class CheckboxTree {
 				.parent() // label tree-node-xxxx
 				.find(CHECKBOX_TITLE) // span rct-title
 				.each($subThe => {
-					objCheckboxTree.validateTextResult($subThe);
+					this.validateTextResult($subThe);
 				}); // @subElement each
 		}); // @chkListElement then
 	}
 
 	// Called in validateSubNodesSelection method
 	validateTextResult(pthe) {
-		const TREE_WRAPPER = objCheckboxTree.getSelector.treeWrapper();
-		const TXT_SUCCESS = objCheckboxTree.getSelector.txtSuccess();
+		const TREE_WRAPPER = this.getSelector.treeWrapper();
+		const TXT_SUCCESS = this.getSelector.txtSuccess();
 
 		// Convertir la cadena al mismo formato que muestra Result
 		// Aaaaa Bbbbb.doc -> aaaaaBbbbb (camelCase, sin extensión)

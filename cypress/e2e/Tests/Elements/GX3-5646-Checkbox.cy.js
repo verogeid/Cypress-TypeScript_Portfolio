@@ -77,7 +77,7 @@ describe('US # GX3-5646 | ToolsQA | Elements | Checkbox', () => {
 		objCheckboxTree.collapseEachTreeNodesReverse();
 
 		// Comprobar estado del árbol tras la iteración
-		objCheckboxTree.validateCollapseEachTreeToggleReversePRC();
+		objCheckboxTree.validateCollapseEachTreeToggleReversePSC();
 	}); // it TC04
 
 	it('GX3-5661 | TC#05: Validar que al marcar un checkbox contenedor se seleccionen los subelementos y se muestre el texto de la selección correctamente', () => {
