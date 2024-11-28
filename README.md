@@ -1,7 +1,15 @@
+# Portafolio de pruebas de automatización UI en Cypress
+
+Este repositorio contiene mis tareas en [UPEX Academy](https://www.upexgalaxy.com/es)
+
+No se publicaran trabajos en ninguna otra empresa debido a las leyes de *Propiedad Intelectual* y *Confidencialidad*.
+
+Si desea consultar el repositorio original visite [https://github.com/upex-galaxy/upex-cypress-demo](https://github.com/upex-galaxy/upex-cypress-demo).
+
 <!--! MODELO STANDARD de UPEX para Testing Automation (TAUS) -->
 # 🧪 Testing Automation - Cypress 👨🏻‍🚀 CI/CD
 <!--todo: Reemplazar la variable <repo_name> con el nombre real del repo -->
-[![🧪Pipeline Regression in QA](https://github.com/upex-galaxy/upex-cypress-demo/actions/workflows/regression.yml/badge.svg)](https://github.com/upex-galaxy/upex-cypress-demo/actions/workflows/regression.yml)
+[![🧪Pipeline Sanity in QA](https://github.com/upex-galaxy/upex-cypress-demo/actions/workflows/sanityTest.yml/badge.svg)](https://github.com/Cypress-UI-Portafolio/actions/workflows/sanityTest.yml)
 ![UPEX's Banners (linkedin) (1)](https://user-images.githubusercontent.com/91127281/189470339-acea5782-16f1-4f06-9ce0-df54fd3ead9d.png)
 
 <!-- Workspace (Require-Badge) -->
