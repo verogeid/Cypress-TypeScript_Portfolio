@@ -6,6 +6,8 @@ No se publicaran trabajos en ninguna otra empresa debido a las leyes de *Propied
 
 Si desea consultar el repositorio original visite [https://github.com/upex-galaxy/upex-cypress-demo](https://github.com/upex-galaxy/upex-cypress-demo).
 
+#
+
 <!--! MODELO STANDARD de UPEX para Testing Automation (TAUS) -->
 # 🧪 Testing Automation - Cypress 👨🏻‍🚀 CI/CD
 <!--todo: Reemplazar la variable <repo_name> con el nombre real del repo -->
