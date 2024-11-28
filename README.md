@@ -1,6 +1,6 @@
 # Portafolio de pruebas de automatización UI en Cypress
 
-Este repositorio contiene mis tareas en [UPEX Academy](https://www.upexgalaxy.com/es)
+Este repositorio contiene mis tareas en [UPEX Academy (https://www.upexgalaxy.com/es)](https://www.upexgalaxy.com/es)
 
 No se publicaran trabajos en ninguna otra empresa debido a las leyes de *Propiedad Intelectual* y *Confidencialidad*.
 
