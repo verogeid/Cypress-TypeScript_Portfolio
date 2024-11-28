@@ -9,7 +9,7 @@ Si desea consultar el repositorio original visite [https://github.com/upex-galax
 <!--! MODELO STANDARD de UPEX para Testing Automation (TAUS) -->
 # 🧪 Testing Automation - Cypress 👨🏻‍🚀 CI/CD
 <!--todo: Reemplazar la variable <repo_name> con el nombre real del repo -->
-[![🧪Pipeline Sanity in QA](https://github.com/upex-galaxy/upex-cypress-demo/actions/workflows/sanityTest.yml/badge.svg)](https://github.com/Cypress-UI-Portafolio/actions/workflows/sanityTest.yml)
+[![🧪Pipeline Sanity in QA](https://github.com/upex-galaxy/upex-cypress-demo/actions/workflows/sanityTest.yml/badge.svg)](https://github.com/Portafolio-Cypress-UI/actions/workflows/sanityTest.yml)
 ![UPEX's Banners (linkedin) (1)](https://user-images.githubusercontent.com/91127281/189470339-acea5782-16f1-4f06-9ce0-df54fd3ead9d.png)
 
 <!-- Workspace (Require-Badge) -->
