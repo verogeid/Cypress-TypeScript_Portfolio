@@ -4,7 +4,7 @@
 		"mochaFile": "cypress/tests_results/junit/chrome/results-[hash].xml",
 		"toConsole": false,
 		"outputs": true,
-		"testCaseSwitchClassnameAndName": false
+		"testCaseSwitchClassnameAndName": true
 	},
 	"reporterOptions": {
 		"reportDir": "cypress/tests_results/mocha/chrome",
