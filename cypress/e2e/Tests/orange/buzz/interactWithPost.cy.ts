@@ -1,5 +1,7 @@
 describe('GX3-5785: Interact with post by Likes', () => {
 	beforeEach('PRC: Go to Buzz Section', () => {
+		Cypress.config('defaultCommandTimeout', 10000);
+		Cypress.config('pageLoadTimeout', 10000);
 		cy.page().then(({ loginPage, buzzPage }) => {
 			loginPage.loginSuccess();
 			buzzPage.visit();
