@@ -23,6 +23,9 @@ const baseUrl = enviroments[env];
 
 const orangeUsername = process.env.USERNAME;
 const orangePassword = process.env.PASSWORD;
+if (!orangePassword || !orangeUsername) {
+	new Error('MISSING CREDENTIALS: USERNAME OR PASSWORD');
+}
 
 export default defineConfig({
 	pageLoadTimeout: 20000,
