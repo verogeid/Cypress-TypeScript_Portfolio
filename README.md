@@ -1,6 +1,6 @@
 # Portafolio: Automatización de Pruebas UI en Cypress.io
 
-Este repositorio contiene mis tareas de automatización UI en [UPEX Academy (upexgalaxy.com)](https://www.upexgalaxy.com/es), bajo el framework Cypress.io (JavaScript & TypeScript). Si desea consultar el repositorio original visite [github.com/.../upex-cypress-demo](https://github.com/upex-galaxy/upex-cypress-demo).
+Este repositorio contiene algunas de mis tareas de automatización UI en [UPEX Academy (upexgalaxy.com)](https://www.upexgalaxy.com/es), bajo el framework Cypress.io (JavaScript & TypeScript). Si desea consultar el repositorio original visite [github.com/.../upex-cypress-demo](https://github.com/upex-galaxy/upex-cypress-demo).
 
 No se publicaran trabajos en ninguna otra empresa debido a las leyes de *Propiedad Intelectual* y *Confidencialidad*.
 
