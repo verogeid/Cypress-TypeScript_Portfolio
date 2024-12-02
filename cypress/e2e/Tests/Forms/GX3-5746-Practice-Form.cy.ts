@@ -9,6 +9,8 @@ const DATA_CHAR_SUBJECT = faker.string.alpha({
 	casing: 'lower',
 	exclude: ['f', 'j', 'k', 'ñ', 'q', 'w', 'x', 'z']
 });
+const DATA_PICTURE_PATH = 'cypress/fixtures/images/upexgalaxy.gif';
+const DATA_CURRENT_ADDRESS = faker.location.direction();
 
 import { objPracticeForm } from '@pages/GX3-5746-Practice-Form.Page';
 // faker usage guide: https://fakerjs.dev/guide/usage
@@ -27,6 +29,12 @@ describe('GX3-5746 |ToolsQA | Forms | Practice Form', () => {
 		objPracticeForm.selectGender();
 		objPracticeForm.typePhoneNumber(DATA_PHONE_NUMBER);
 		objPracticeForm.selectRandomDate();
-		objPracticeForm.typeRandomSubjetcs(DATA_CHAR_SUBJECT);
+		objPracticeForm.typeRandomSubjects(DATA_CHAR_SUBJECT);
+		objPracticeForm.clickUploadPicture(DATA_PICTURE_PATH);
+		objPracticeForm.typeCurrentAddress(DATA_CURRENT_ADDRESS);
+		objPracticeForm.selectRandomState();
+		objPracticeForm.selectRandomCity();
+
+		objPracticeForm.clickSubmit();
 	});
 });

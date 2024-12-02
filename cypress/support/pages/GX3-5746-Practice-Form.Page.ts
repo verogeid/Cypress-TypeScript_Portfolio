@@ -12,7 +12,19 @@ class PracticeForm {
 		selectDatePickerDay: () => cy.get('.react-datepicker__day:not([class$="outside-month"])'),
 
 		inputSubject: () => cy.get('input#subjectsInput'),
-		selectSubjectOption: () => cy.get('.subjects-auto-complete__option')
+		selectSubjectOption: () => cy.get('.subjects-auto-complete__option'),
+
+		selectUploadFile: () => cy.get('#uploadPicture'),
+
+		inputCurrentAddress: () => cy.get('#currentAddress'),
+
+		selectState: () => cy.get('#state'),
+		selectStateOption: () => cy.get('[id^="react-select-3-option-"]'),
+
+		selectCity: () => cy.get('#city'),
+		selectCityOption: () => cy.get('[id^="react-select-4-option-"]'),
+
+		buttonSubmit: () => cy.get('#submit')
 	};
 
 	typeFirthName(pstrFirstName: string) {
@@ -74,7 +86,7 @@ class PracticeForm {
 			});
 	}
 
-	typeRandomSubjetcs(pstrChar: string) {
+	typeRandomSubjects(pstrChar: string) {
 		this.get.inputSubject().should('exist').type(pstrChar);
 
 		this.get
@@ -85,6 +97,44 @@ class PracticeForm {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
 				this.get.selectSubjectOption().eq(INT_RANDOM_OPTION).click();
 			});
+	}
+
+	clickUploadPicture(pstrPath: string) {
+		this.get.selectUploadFile().should('exist').selectFile(pstrPath);
+	}
+
+	typeCurrentAddress(pstrAddress: string) {
+		this.get.inputCurrentAddress().should('exist').type(pstrAddress);
+	}
+
+	selectRandomState() {
+		this.get.selectState().should('exist').click();
+
+		this.get
+			.selectStateOption()
+			.should('exist')
+			.its('length')
+			.then($intElem => {
+				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
+				this.get.selectStateOption().eq(INT_RANDOM_OPTION).click();
+			});
+	}
+
+	selectRandomCity() {
+		this.get.selectCity().should('exist').click();
+
+		this.get
+			.selectCityOption()
+			.should('exist')
+			.its('length')
+			.then($intElem => {
+				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
+				this.get.selectCityOption().eq(INT_RANDOM_OPTION).click();
+			});
+	}
+
+	clickSubmit() {
+		this.get.buttonSubmit().should('exist').click();
 	}
 }
 
