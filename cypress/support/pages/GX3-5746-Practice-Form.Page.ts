@@ -24,7 +24,21 @@ class PracticeForm {
 		selectCity: () => cy.get('#city'),
 		selectCityOption: () => cy.get('[id^="react-select-4-option-"]'),
 
-		buttonSubmit: () => cy.get('#submit')
+		buttonSubmit: () => cy.get('#submit'),
+
+		// 0:<tr><td>label</td>   1: <td>value</td><tr>
+		resultTable: () => cy.get('.table-responsive'),
+
+		resultName: () => this.get.resultTable().find('tbody tr td').eq(1),
+		resultEmail: () => this.get.resultTable().find('tbody tr td').eq(3),
+		resultGenders: () => this.get.resultTable().find('tbody tr td').eq(5),
+		resultMobile: () => this.get.resultTable().find('tbody tr td').eq(7),
+		resultBirth: () => this.get.resultTable().find('tbody tr td').eq(9),
+		resultSubjects: () => this.get.resultTable().find('tbody tr td').eq(11),
+		resultHobbies: () => this.get.resultTable().find('tbody tr td').eq(13),
+		resultPicture: () => this.get.resultTable().find('tbody tr td').eq(15),
+		resultAddress: () => this.get.resultTable().find('tbody tr td').eq(17),
+		resultStateCity: () => this.get.resultTable().find('tbody tr td').eq(19)
 	};
 
 	typeFirthName(pstrFirstName: string) {
@@ -33,20 +47,28 @@ class PracticeForm {
 
 	typeLastName(pstrLastName: string) {
 		this.get.inputLastName().should('exist').type(pstrLastName);
+
+		Cypress.env('studentName', `${toString(this.get.inputFirstName().invoke('text'))} ${toString(this.get.inputLastName().invoke('text'))}`);
 	}
 
 	typeUserEmail(pstrUserEmail: string) {
 		this.get.inputUserEmail().should('exist').type(pstrUserEmail);
+
+		Cypress.env('studentEmail', pstrUserEmail);
 	}
 
 	selectGender() {
 		const INT_RANDOM = Cypress._.random(0, 2);
 
-		this.get.optionsGenders().eq(INT_RANDOM).should('exist').click();
+		this.get.optionsGenders().eq(INT_RANDOM).as('gender').should('exist').click();
+
+		Cypress.env('studentGender', cy.get('@gender').its('text'));
 	}
 
 	typePhoneNumber(pstrPhoneNumber: string) {
 		this.get.inputPhoneNumber().should('exist').type(pstrPhoneNumber);
+
+		Cypress.env('studentPhone', pstrPhoneNumber);
 	}
 
 	clickDateOfBirth() {
@@ -84,10 +106,12 @@ class PracticeForm {
 				const INT_RANDOM_DAY = Cypress._.random(0, $intElem - 1);
 				this.get.selectDatePickerDay().eq(INT_RANDOM_DAY).click();
 			});
+
+		Cypress.env('studentBirthDate', this.get.inputDateOfBirth().its('text'));
 	}
 
 	typeRandomSubjects(pstrChar: string) {
-		this.get.inputSubject().should('exist').type(pstrChar);
+		this.get.inputSubject().as('subject').should('exist').type(pstrChar);
 
 		this.get
 			.selectSubjectOption()
@@ -97,18 +121,24 @@ class PracticeForm {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
 				this.get.selectSubjectOption().eq(INT_RANDOM_OPTION).click();
 			});
+
+		Cypress.env('studentSubject', cy.get('@subject').its('text'));
 	}
 
 	clickUploadPicture(pstrPath: string) {
-		this.get.selectUploadFile().should('exist').selectFile(pstrPath);
+		this.get.selectUploadFile().as('pictureName').should('exist').selectFile(pstrPath);
+
+		Cypress.env('studentPhoto', cy.get('@pictureName').its('text'));
 	}
 
 	typeCurrentAddress(pstrAddress: string) {
 		this.get.inputCurrentAddress().should('exist').type(pstrAddress);
+
+		Cypress.env('studentAddress', pstrAddress);
 	}
 
 	selectRandomState() {
-		this.get.selectState().should('exist').click();
+		this.get.selectState().as('state').should('exist').click();
 
 		this.get
 			.selectStateOption()
@@ -116,8 +146,10 @@ class PracticeForm {
 			.its('length')
 			.then($intElem => {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
-				this.get.selectStateOption().eq(INT_RANDOM_OPTION).click();
+				this.get.selectStateOption().as('state').eq(INT_RANDOM_OPTION).click();
 			});
+
+		//Cypress.env('studentStateCity', cy.get('@state').its('text'));
 	}
 
 	selectRandomCity() {
@@ -135,6 +167,12 @@ class PracticeForm {
 
 	clickSubmit() {
 		this.get.buttonSubmit().should('exist').click();
+	}
+
+	validateResult() {
+		this.get.resultTable().should('exist');
+
+		this.get.resultName().should('exist').and('be.equal', Cypress.env('studentName'));
 	}
 }
 

@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 const DATA_FIRST_NAME = faker.person.firstName();
 const DATA_LAST_NAME = faker.person.lastName();
 const DATA_USER_EMAIL = faker.internet.email();
-const DATA_PHONE_NUMBER = faker.phone.number();
+const DATA_PHONE_NUMBER = faker.string.numeric({ length: 10 });
 const DATA_CHAR_SUBJECT = faker.string.alpha({
 	length: 1,
 	casing: 'lower',
@@ -36,5 +36,7 @@ describe('GX3-5746 |ToolsQA | Forms | Practice Form', () => {
 		objPracticeForm.selectRandomCity();
 
 		objPracticeForm.clickSubmit();
+
+		objPracticeForm.validateResult();
 	});
 });
