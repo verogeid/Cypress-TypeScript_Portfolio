@@ -2,6 +2,7 @@
 #! NO NECESITAS MODIFICAR NADA de este archivo...
 #*🚀 Solo necesitas configurar las variables de entorno, keys de Jira y tu ruta de archivo de prueba a ejecutar en el Panel "Run workflow" de GitHub Actions
 #? 🧪 Este PIPELINE ejecutará tus pruebas y subirá los resultados a Jira XRay
+#
 
 name: 🧪 UPEX CI/CD SanityTest Pipeline
 run-name: ${{github.actor}}👨🏻‍🔬 triggered SanityTest in ${{github.ref_name}}
