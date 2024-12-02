@@ -28,8 +28,6 @@ No se publicaran trabajos en ninguna otra empresa debido a las leyes de *Propied
 <!-- Integrations -->
 [![eslint]][eslint-site]
 
-Este repositorio contiene un marco de automatización de pruebas para el proyecto **Cypress**. El marco está diseñado para ejecutar pruebas de regresión, pruebas de humo y pruebas de integración en un entorno de CI/CD. El marco de automatización está construido con las mejores prácticas y patrones de diseño para garantizar la escalabilidad, mantenibilidad y reutilización del código de prueba.
-
 ## Requisitos para Usar el Repositorio
 
 Antes de comenzar a trabajar con el repositorio, asegúrate de cumplir con los siguientes requisitos de software. Estos son esenciales para garantizar un entorno de trabajo fluido y compatible con los estándares de UPEX.
