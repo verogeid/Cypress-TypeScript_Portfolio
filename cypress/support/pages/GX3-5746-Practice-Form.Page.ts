@@ -1,12 +1,50 @@
 class PracticeForm {
-	get = {
+	/* Private PROPERTIES. Only can be access from class inner methods */
+	private ppFirstName: string;
+	private ppLastName: string;
+	private ppUserEmail: string;
+	private ppGender: string;
+	private ppPhoneNumber: string;
+	private ppBirthDate: string;
+	private ppSubject: string;
+	private ppFileName: string;
+	private ppCurrentAddress: string;
+	private ppState: string;
+	private ppCity: string;
+
+	constructor() {
+		this.ppFirstName = '';
+		this.ppLastName = '';
+		this.ppUserEmail = '';
+		this.ppGender = '';
+		this.ppPhoneNumber = '';
+		this.ppBirthDate = '';
+		this.ppSubject = '';
+		this.ppFileName = '';
+		this.ppCurrentAddress = '';
+		this.ppState = '';
+		this.ppCity = '';
+	}
+
+	/* Class METHODS */
+	set = {
+		firstName(pstrName: string) {
+			this.ppFirstName = pstrName;
+		},
+		birthDate(pstrBirthDate: string) {
+			this.ppBirthDate = pstrBirthDate;
+		}
+	};
+
+	private get = {
 		inputFirstName: () => cy.get('input#firstName'),
 		inputLastName: () => cy.get('input#lastName'),
 		inputUserEmail: () => cy.get('input#userEmail'),
-		optionsGenders: () => cy.get('input[name="gender"]').parent().find('label'),
+		optionsGenders: () => Cypress.$('label[for^="gender-radio-"]'),
 		inputPhoneNumber: () => cy.get('input#userNumber'),
 
 		inputDateOfBirth: () => cy.get('input#dateOfBirthInput'),
+		inputDateOfBirthCy: () => Cypress.$('input[id="dateOfBirthInput"]'),
 		selectDatePickerYear: () => cy.get('select.react-datepicker__year-select'),
 		selectDatePickerMonth: () => cy.get('select.react-datepicker__month-select'),
 		selectDatePickerDay: () => cy.get('.react-datepicker__day:not([class$="outside-month"])'),
@@ -41,41 +79,40 @@ class PracticeForm {
 		resultStateCity: () => this.get.resultTable().find('tbody tr td').eq(19)
 	};
 
-	typeFirthName(pstrFirstName: string) {
-		this.get.inputFirstName().should('exist').type(pstrFirstName);
+	public typeFirthName(pstrFirstName: string) {
+		this.get.inputFirstName().as('firstName').should('exist').type(pstrFirstName);
+		this.ppFirstName = pstrFirstName;
 	}
 
-	typeLastName(pstrLastName: string) {
-		this.get.inputLastName().should('exist').type(pstrLastName);
-
-		Cypress.env('studentName', `${toString(this.get.inputFirstName().invoke('text'))} ${toString(this.get.inputLastName().invoke('text'))}`);
+	public typeLastName(pstrLastName: string) {
+		this.get.inputLastName().as('lastName').should('exist').type(pstrLastName);
+		this.ppLastName = pstrLastName;
 	}
 
-	typeUserEmail(pstrUserEmail: string) {
-		this.get.inputUserEmail().should('exist').type(pstrUserEmail);
-
-		Cypress.env('studentEmail', pstrUserEmail);
+	public typeUserEmail(pstrUserEmail: string) {
+		this.get.inputUserEmail().as('email').should('exist').type(pstrUserEmail);
+		this.ppUserEmail = pstrUserEmail;
 	}
 
-	selectGender() {
+	public selectGender() {
 		const INT_RANDOM = Cypress._.random(0, 2);
 
-		this.get.optionsGenders().eq(INT_RANDOM).as('gender').should('exist').click();
+		this.get.optionsGenders()[INT_RANDOM].click();
 
-		Cypress.env('studentGender', cy.get('@gender').its('text'));
+		this.ppGender = this.get.optionsGenders()[INT_RANDOM].innerText;
 	}
 
-	typePhoneNumber(pstrPhoneNumber: string) {
-		this.get.inputPhoneNumber().should('exist').type(pstrPhoneNumber);
+	public typePhoneNumber(pstrPhoneNumber: string) {
+		this.get.inputPhoneNumber().as('phoneNumber').should('exist').type(pstrPhoneNumber);
 
-		Cypress.env('studentPhone', pstrPhoneNumber);
+		this.ppPhoneNumber = pstrPhoneNumber;
 	}
 
-	clickDateOfBirth() {
-		this.get.inputDateOfBirth().should('exist').click();
+	private clickDateOfBirth() {
+		this.get.inputDateOfBirth().click();
 	}
 
-	selectRandomDate() {
+	public selectRandomDate() {
 		/* Años bisiestos:
 			- los múltiplos de 4
 			- salvo los múltiplos de 100
@@ -85,7 +122,9 @@ class PracticeForm {
 			para cercionarnos que febrero tiene el número correcto de días
 		*/
 
-		this.clickDateOfBirth();
+		//this.clickDateOfBirth();
+		//this.get.inputDateOfBirth().triggerHandler('click');
+		this.get.inputDateOfBirth().as('birthDate').click();
 
 		this.get
 			.selectDatePickerYear()
@@ -107,10 +146,10 @@ class PracticeForm {
 				this.get.selectDatePickerDay().eq(INT_RANDOM_DAY).click();
 			});
 
-		Cypress.env('studentBirthDate', this.get.inputDateOfBirth().its('text'));
+		this.ppBirthDate = this.get.inputDateOfBirthCy().val();
 	}
 
-	typeRandomSubjects(pstrChar: string) {
+	public typeRandomSubjects(pstrChar: string) {
 		this.get.inputSubject().as('subject').should('exist').type(pstrChar);
 
 		this.get
@@ -119,25 +158,34 @@ class PracticeForm {
 			.its('length')
 			.then($intElem => {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
+
 				this.get.selectSubjectOption().eq(INT_RANDOM_OPTION).click();
 			});
 
-		Cypress.env('studentSubject', cy.get('@subject').its('text'));
+		cy.get('@subject')
+			.invoke('text')
+			.then($the => {
+				this.ppSubject = $the;
+			});
 	}
 
-	clickUploadPicture(pstrPath: string) {
+	public clickUploadPicture(pstrPath: string) {
 		this.get.selectUploadFile().as('pictureName').should('exist').selectFile(pstrPath);
 
-		Cypress.env('studentPhoto', cy.get('@pictureName').its('text'));
+		cy.get('@pictureName')
+			.invoke('text')
+			.then($the => {
+				this.ppFileName = $the;
+			});
 	}
 
-	typeCurrentAddress(pstrAddress: string) {
-		this.get.inputCurrentAddress().should('exist').type(pstrAddress);
+	public typeCurrentAddress(pstrAddress: string) {
+		this.get.inputCurrentAddress().as('currentAddress').should('exist').type(pstrAddress);
 
-		Cypress.env('studentAddress', pstrAddress);
+		this.ppCurrentAddress = pstrAddress;
 	}
 
-	selectRandomState() {
+	public selectRandomState() {
 		this.get.selectState().as('state').should('exist').click();
 
 		this.get
@@ -146,14 +194,18 @@ class PracticeForm {
 			.its('length')
 			.then($intElem => {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
-				this.get.selectStateOption().as('state').eq(INT_RANDOM_OPTION).click();
+				this.get.selectStateOption().eq(INT_RANDOM_OPTION).click();
 			});
 
-		//Cypress.env('studentStateCity', cy.get('@state').its('text'));
+		cy.get('@state')
+			.invoke('text')
+			.then($the => {
+				this.ppState = $the;
+			});
 	}
 
-	selectRandomCity() {
-		this.get.selectCity().should('exist').click();
+	public selectRandomCity() {
+		this.get.selectCity().as('city').should('exist').click();
 
 		this.get
 			.selectCityOption()
@@ -161,18 +213,35 @@ class PracticeForm {
 			.its('length')
 			.then($intElem => {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
+
 				this.get.selectCityOption().eq(INT_RANDOM_OPTION).click();
+			});
+
+		cy.get('@city')
+			.invoke('text')
+			.then($the => {
+				this.ppCity = $the;
 			});
 	}
 
-	clickSubmit() {
+	public clickSubmit() {
 		this.get.buttonSubmit().should('exist').click();
 	}
 
-	validateResult() {
+	public validateResult() {
 		this.get.resultTable().should('exist');
 
-		this.get.resultName().should('exist').and('be.equal', Cypress.env('studentName'));
+		this.get.resultName().should('exist').and('contain.text', `${this.ppFirstName} ${this.ppLastName}`);
+
+		this.get.resultEmail().should('exist').and('have.text', this.ppUserEmail);
+		this.get.resultGenders().should('exist').and('have.text', this.ppGender);
+		this.get.resultMobile().should('exist').and('have.text', this.ppPhoneNumber);
+		this.get.resultBirth().should('exist').and('have.text', this.ppBirthDate);
+		this.get.resultSubjects().should('exist').and('have.text', this.ppSubject);
+		this.get.resultHobbies().should('exist');
+		this.get.resultPicture().should('exist').and('have.text', this.ppFileName);
+		this.get.resultAddress().should('exist').and('have.text', this.ppCurrentAddress);
+		this.get.resultStateCity().should('exist').and('have.text', `${this.ppState} ${this.ppCity}`);
 	}
 }
 
