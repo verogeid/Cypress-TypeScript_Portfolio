@@ -4,7 +4,7 @@ class JsonDataHandler {
 	}
 
 	// Método para establecer datos en memoria
-	setData(newData) {
+	setData(newData: any) {
 		this.data = { ...this.data, ...newData };
 	}
 
@@ -14,12 +14,12 @@ class JsonDataHandler {
 	}
 
 	// Método para leer un valor específico de los datos
-	readValue(key) {
+	readValue(key: string) {
 		return this.data[key];
 	}
 
 	// Método para escribir un valor específico en los datos
-	writeValue(key, value) {
+	writeValue(key: string, value: string) {
 		this.data[key] = value;
 	}
 }
