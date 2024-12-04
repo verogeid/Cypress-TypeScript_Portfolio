@@ -30,13 +30,12 @@ class PracticeForm {
 	private get = {
 		inputFirstName: () => cy.get('input#firstName'),
 		inputLastName: () => cy.get('input#lastName'),
+
 		inputUserEmail: () => cy.get('input#userEmail'),
-		//optionsGenders: () => Cypress.$('label[for^="gender-radio-"]'),
 		optionsGenders: () => cy.get('label[for^="gender-radio-"]'),
 		inputPhoneNumber: () => cy.get('input#userNumber'),
 
 		inputDateOfBirth: () => cy.get('input#dateOfBirthInput'),
-		inputDateOfBirthCy: () => Cypress.$('input[id="dateOfBirthInput"]'),
 		selectDatePickerYear: () => cy.get('select.react-datepicker__year-select'),
 		selectDatePickerMonth: () => cy.get('select.react-datepicker__month-select'),
 		selectDatePickerDay: () => cy.get('.react-datepicker__day:not([class$="outside-month"])'),
@@ -94,7 +93,7 @@ class PracticeForm {
 		this.jsonHandler.writeValue('userEmail', pstrData);
 	}
 
-	public selectGender() {
+	public selectRandomGender() {
 		const INT_RANDOM = Cypress._.random(0, 2);
 
 		this.get.optionsGenders().eq(INT_RANDOM).click();
@@ -130,10 +129,12 @@ class PracticeForm {
 			.its('length')
 			.then($intElem => {
 				const INT_RANDOM_YEAR = Cypress._.random(0, $intElem - 1);
+
 				this.get.selectDatePickerYear().select(INT_RANDOM_YEAR);
 			});
 
 		const INT_RANDOM_MONTH = Cypress._.random(0, 11);
+
 		this.get.selectDatePickerMonth().select(INT_RANDOM_MONTH);
 
 		this.get
@@ -173,9 +174,11 @@ class PracticeForm {
 				// Leer el array existente o inicializar uno nuevo
 				const DATA_ARRAY = this.jsonHandler.readValue('userSubject') || [];
 
-				DATA_ARRAY.push(the);
+				if (!DATA_ARRAY.includes(the)) {
+					DATA_ARRAY.push(the);
 
-				this.jsonHandler.writeValue('userSubject', DATA_ARRAY);
+					this.jsonHandler.writeValue('userSubject', DATA_ARRAY);
+				}
 			});
 	}
 
@@ -190,9 +193,11 @@ class PracticeForm {
 			.then(the => {
 				const DATA_ARRAY = this.jsonHandler.readValue('userHobbies') || [];
 
-				DATA_ARRAY.push(the);
+				if (!DATA_ARRAY.includes(the)) {
+					DATA_ARRAY.push(the);
 
-				this.jsonHandler.writeValue('userHobbies', DATA_ARRAY);
+					this.jsonHandler.writeValue('userHobbies', DATA_ARRAY);
+				}
 			});
 	}
 

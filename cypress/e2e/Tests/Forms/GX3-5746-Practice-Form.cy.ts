@@ -26,7 +26,7 @@ describe('GX3-5746 |ToolsQA | Forms | Practice Form', () => {
 		objPracticeForm.typeFirthName(DATA_FIRST_NAME);
 		objPracticeForm.typeLastName(DATA_LAST_NAME);
 		objPracticeForm.typeUserEmail(DATA_USER_EMAIL);
-		objPracticeForm.selectGender();
+		objPracticeForm.selectRandomGender();
 		objPracticeForm.typePhoneNumber(DATA_PHONE_NUMBER);
 		objPracticeForm.selectRandomDate();
 		objPracticeForm.typeRandomSubjects(DATA_CHAR_SUBJECT);
