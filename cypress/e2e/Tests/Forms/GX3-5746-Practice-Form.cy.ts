@@ -30,6 +30,7 @@ describe('GX3-5746 |ToolsQA | Forms | Practice Form', () => {
 		objPracticeForm.typePhoneNumber(DATA_PHONE_NUMBER);
 		objPracticeForm.selectRandomDate();
 		objPracticeForm.typeRandomSubjects(DATA_CHAR_SUBJECT);
+		objPracticeForm.selectRandomHobbies();
 		objPracticeForm.clickUploadPicture(DATA_PICTURE_PATH);
 		objPracticeForm.typeCurrentAddress(DATA_CURRENT_ADDRESS);
 		objPracticeForm.selectRandomState();
