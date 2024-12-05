@@ -150,7 +150,7 @@ class PracticeForm {
 	}
 
 	public uploadPicture(pstrFilePath: string) {
-		this.get.selectUploadFile().as('selectedPictureName').should('exist').selectFile(pstrFilePath);
+		this.get.selectUploadFile().as('selectedFileName').should('exist').selectFile(pstrFilePath);
 	}
 
 	public typeCurrentAddress(pstrAddress: string) {

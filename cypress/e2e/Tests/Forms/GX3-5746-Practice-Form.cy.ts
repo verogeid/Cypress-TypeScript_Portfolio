@@ -85,9 +85,9 @@ describe('GX3-5746 |ToolsQA | Forms | Practice Form', () => {
 			});
 
 		objPracticeFormPage.uploadPicture(DATA_PICTURE_PATH);
-		cy.get('@selectedPictureName').then($the => {
-			let _arrFiles = $the[0].files;
-			let _fileName = _arrFiles[0].name;
+		cy.get('@selectedFileName').then($the => {
+			let _arrFiles = $the[0] as HTMLInputElement;
+			let _fileName = _arrFiles.files![0].name;
 
 			objJsonDataHandler.writeValue('fileName', _fileName);
 		});
