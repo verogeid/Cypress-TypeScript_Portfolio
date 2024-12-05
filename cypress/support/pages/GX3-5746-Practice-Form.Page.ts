@@ -1,33 +1,29 @@
 class JsonDataHandler {
+	private data: Record<string, any>;
+
 	constructor() {
-		this.data = {}; // Propiedad para almacenar datos en memoria
+		this.data = {};
 	}
 
-	// Método para establecer datos en memoria
-	setData(newData: any) {
+	setData(newData: Record<string, any>): void {
 		this.data = { ...this.data, ...newData };
 	}
 
-	// Método para obtener datos de memoria
-	getData() {
+	getData(): Record<string, any> {
 		return this.data;
 	}
 
-	// Método para leer un valor específico de los datos
-	readValue(key: string) {
+	readValue(key: string): any {
 		return this.data[key];
 	}
 
-	// Método para escribir un valor específico en los datos
-	writeValue(key: string, value: string) {
+	writeValue(key: string, value: any): void {
 		this.data[key] = value;
 	}
 }
 
 class PracticeForm {
-	private jsonHandler = new JsonDataHandler();
-
-	private get = {
+	public get = {
 		inputFirstName: () => cy.get('input#firstName'),
 		inputLastName: () => cy.get('input#lastName'),
 
@@ -52,11 +48,11 @@ class PracticeForm {
 
 		selectState: () => cy.get('#state'),
 		selectStateOption: () => cy.get('[id^="react-select-3-option-"]'),
-		selectStateLabel: () => cy.get('#state [class$="-singleValue"]'),
+		selectedStateLabel: () => cy.get('#state [class$="-singleValue"]'),
 
 		selectCity: () => cy.get('#city'),
 		selectCityOption: () => cy.get('[id^="react-select-4-option-"]'),
-		selectCityLabel: () => cy.get('#city [class$="-singleValue"]'),
+		selectedCityLabel: () => cy.get('#city [class$="-singleValue"]'),
 
 		buttonSubmit: () => cy.get('#submit'),
 
@@ -75,40 +71,26 @@ class PracticeForm {
 		resultStateCity: () => this.get.resultTable().find('tbody tr td').eq(19)
 	};
 
-	public typeFirthName(pstrData: string) {
-		this.get.inputFirstName().as('firstName').should('exist').type(pstrData);
-
-		this.jsonHandler.writeValue('firstName', pstrData);
+	public typeFirstName(pstrFirstName: string) {
+		this.get.inputFirstName().as('typedFirstName').should('exist').type(pstrFirstName);
 	}
 
-	public typeLastName(pstrData: string) {
-		this.get.inputLastName().as('lastName').should('exist').type(pstrData);
-
-		this.jsonHandler.writeValue('lastName', pstrData);
+	public typeLastName(pstrLastName: string) {
+		this.get.inputLastName().as('typedLastName').should('exist').type(pstrLastName);
 	}
 
-	public typeUserEmail(pstrData: string) {
-		this.get.inputUserEmail().as('userEmail').should('exist').type(pstrData);
-
-		this.jsonHandler.writeValue('userEmail', pstrData);
+	public typeEmail(pstrEmail: string) {
+		this.get.inputUserEmail().as('typedEmail').should('exist').type(pstrEmail);
 	}
 
 	public selectRandomGender() {
 		const INT_RANDOM = Cypress._.random(0, 2);
 
-		this.get.optionsGenders().eq(INT_RANDOM).click();
-
-		this.get
-			.optionsGenders()
-			.eq(INT_RANDOM)
-			.invoke('text')
-			.then(the => this.jsonHandler.writeValue('userGender', the));
+		this.get.optionsGenders().eq(INT_RANDOM).as('selectedOptionGender').click();
 	}
 
-	public typePhoneNumber(pstrData: string) {
-		this.get.inputPhoneNumber().as('phoneNumber').should('exist').type(pstrData);
-
-		this.jsonHandler.writeValue('phoneNumber', pstrData);
+	public typePhoneNumber(pstrPhoneNumber: string) {
+		this.get.inputPhoneNumber().as('typedPhoneNumber').should('exist').type(pstrPhoneNumber);
 	}
 
 	public selectRandomDate() {
@@ -121,7 +103,7 @@ class PracticeForm {
 			para cercionarnos que febrero tiene el número correcto de días
 		*/
 
-		this.get.inputDateOfBirth().as('birthDate').click();
+		this.get.inputDateOfBirth().as('selectedBirthDate').click();
 
 		this.get
 			.selectDatePickerYear()
@@ -145,16 +127,10 @@ class PracticeForm {
 
 				this.get.selectDatePickerDay().eq(INT_RANDOM_DAY).click();
 			});
-
-		cy.get('@birthDate')
-			.invoke('val')
-			.then($the => {
-				this.jsonHandler.writeValue('birthDate', $the);
-			});
 	}
 
 	public typeRandomSubjects(pstrChar: string) {
-		this.get.inputSubject().as('subject').should('exist').type(pstrChar);
+		this.get.inputSubject().should('exist').type(pstrChar);
 
 		this.get
 			.selectSubjectOption()
@@ -163,59 +139,22 @@ class PracticeForm {
 			.then($intElem => {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
 
-				this.get.selectSubjectOption().eq(INT_RANDOM_OPTION).click();
-			});
-
-		this.get
-			.labelSubjects()
-			.should('exist')
-			.invoke('text')
-			.then(the => {
-				// Leer el array existente o inicializar uno nuevo
-				const DATA_ARRAY = this.jsonHandler.readValue('userSubject') || [];
-
-				if (!DATA_ARRAY.includes(the)) {
-					DATA_ARRAY.push(the);
-
-					this.jsonHandler.writeValue('userSubject', DATA_ARRAY);
-				}
+				this.get.selectSubjectOption().eq(INT_RANDOM_OPTION).as('selectedSubject').click();
 			});
 	}
 
 	public selectRandomHobbies() {
 		const INT_RANDOM_OPTION = Cypress._.random(0, 2);
 
-		this.get
-			.optionsHobbies()
-			.eq(INT_RANDOM_OPTION)
-			.click()
-			.invoke('text')
-			.then(the => {
-				const DATA_ARRAY = this.jsonHandler.readValue('userHobbies') || [];
-
-				if (!DATA_ARRAY.includes(the)) {
-					DATA_ARRAY.push(the);
-
-					this.jsonHandler.writeValue('userHobbies', DATA_ARRAY);
-				}
-			});
+		this.get.optionsHobbies().eq(INT_RANDOM_OPTION).as('selectedHobby').click();
 	}
 
-	public clickUploadPicture(pstrData: string) {
-		this.get.selectUploadFile().as('pictureName').should('exist').selectFile(pstrData);
-
-		cy.get('@pictureName').then($input => {
-			const DATA_FILES = $input[0].files;
-			const DATA_FILE_NAME = DATA_FILES[0].name;
-
-			this.jsonHandler.writeValue('fileName', DATA_FILE_NAME);
-		});
+	public uploadPicture(pstrFilePath: string) {
+		this.get.selectUploadFile().as('selectedPictureName').should('exist').selectFile(pstrFilePath);
 	}
 
-	public typeCurrentAddress(pstrData: string) {
-		this.get.inputCurrentAddress().as('currentAddress').should('exist').type(pstrData);
-
-		this.jsonHandler.writeValue('currentAddress', pstrData);
+	public typeCurrentAddress(pstrAddress: string) {
+		this.get.inputCurrentAddress().as('typedAddress').should('exist').type(pstrAddress);
 	}
 
 	public selectRandomState() {
@@ -228,17 +167,12 @@ class PracticeForm {
 			.then($intElem => {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
 
-				this.get.selectStateOption().eq(INT_RANDOM_OPTION).click();
+				this.get.selectStateOption().eq(INT_RANDOM_OPTION).as('selectedState').click();
 			});
-
-		this.get
-			.selectStateLabel()
-			.invoke('text')
-			.then(the => this.jsonHandler.writeValue('userState', the));
 	}
 
 	public selectRandomCity() {
-		this.get.selectCity().as('city').should('exist').click();
+		this.get.selectCity().should('exist').click();
 
 		this.get
 			.selectCityOption()
@@ -247,65 +181,26 @@ class PracticeForm {
 			.then($intElem => {
 				const INT_RANDOM_OPTION = Cypress._.random(0, $intElem - 1);
 
-				this.get.selectCityOption().eq(INT_RANDOM_OPTION).click();
+				this.get.selectCityOption().eq(INT_RANDOM_OPTION).as('selectedCity').click();
 			});
-
-		this.get
-			.selectCityLabel()
-			.invoke('text')
-			.then(the => this.jsonHandler.writeValue('userCity', the));
 	}
 
 	public clickSubmit() {
 		this.get.buttonSubmit().should('exist').click();
 	}
 
-	private formatDate(pstrDate: string): string {
-		const DATA_BIRTH_DATE = new Date(pstrDate);
+	public formatDate(pstrDate: string): string {
 		const DATA_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-		const DATA_DAY = DATA_BIRTH_DATE.getDate(); // Obtener el día
-		const DATA_MONTH = DATA_MONTHS[DATA_BIRTH_DATE.getMonth()]; // Obtener el nombre del mes
-		const DATA_YEAR = DATA_BIRTH_DATE.getFullYear(); // Obtener el año
-		const DATA_FORMATED_DATE = `${DATA_DAY} ${DATA_MONTH},${DATA_YEAR}`;
 
-		return DATA_FORMATED_DATE;
-	}
+		let _birthDate = new Date(pstrDate);
+		let _day = _birthDate.getDate();
+		let _month = DATA_MONTHS[_birthDate.getMonth()];
+		let _year = _birthDate.getFullYear();
+		let _formatedDate = `${_day} ${_month},${_year}`;
 
-	public validateResult() {
-		this.get
-			.resultTable()
-			.should('exist')
-			.then(() => {
-				this.get.resultName().should('exist').and('contain.text', this.jsonHandler.readValue('firstName')).and('contain.text', this.jsonHandler.readValue('lastName'));
-
-				this.get.resultEmail().should('exist').and('contain.text', this.jsonHandler.readValue('userEmail'));
-				this.get.resultGenders().should('exist').and('have.text', this.jsonHandler.readValue('userGender'));
-				this.get.resultMobile().should('exist').and('have.text', this.jsonHandler.readValue('phoneNumber'));
-
-				this.get
-					.resultBirth()
-					.should('exist')
-					.invoke('text')
-					.then(the => {
-						expect(this.formatDate(the)).to.equal(this.formatDate(this.jsonHandler.readValue('birthDate')));
-					});
-
-				const DATA_ARRAY_SUBJECT = this.jsonHandler.readValue('userSubject');
-				DATA_ARRAY_SUBJECT.forEach((the, index) => {
-					this.get.resultSubjects().should('exist').and('contain.text', the[index]);
-				});
-
-				const DATA_ARRAY_HOBBIES = this.jsonHandler.readValue('userHobbies');
-				DATA_ARRAY_HOBBIES.forEach((the, index) => {
-					this.get.resultHobbies().should('exist').and('contain.text', the[index]);
-				});
-
-				this.get.resultPicture().should('exist').and('have.text', this.jsonHandler.readValue('fileName'));
-				this.get.resultAddress().should('exist').and('have.text', this.jsonHandler.readValue('currentAddress'));
-
-				this.get.resultStateCity().should('exist').and('contain.text', this.jsonHandler.readValue('userState')).and('contain.text', this.jsonHandler.readValue('userCity'));
-			});
+		return _formatedDate;
 	}
 }
 
-export const objPracticeForm = new PracticeForm();
+export const objJsonDataHandler = new JsonDataHandler();
+export const objPracticeFormPage = new PracticeForm();
