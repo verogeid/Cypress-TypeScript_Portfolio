@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 // faker usage guide: https://fakerjs.dev/guide/usage
 // faker modules: https://fakerjs.dev/api/
 
-import { objJsonDataHandler } from '@pages/GX3-5746-Practice-Form.Page';
+import { objJsonDataHandler } from '@helper/JsonDataHandler';
 import { objPracticeFormPage } from '@pages/GX3-5746-Practice-Form.Page';
 
 const DATA_FIRST_NAME = faker.person.firstName();

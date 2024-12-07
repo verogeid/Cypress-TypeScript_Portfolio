@@ -1,27 +1,3 @@
-class JsonDataHandler {
-	private data: Record<string, any>;
-
-	constructor() {
-		this.data = {};
-	}
-
-	setData(newData: Record<string, any>): void {
-		this.data = { ...this.data, ...newData };
-	}
-
-	getData(): Record<string, any> {
-		return this.data;
-	}
-
-	readValue(key: string): any {
-		return this.data[key];
-	}
-
-	writeValue(key: string, value: any): void {
-		this.data[key] = value;
-	}
-}
-
 class PracticeForm {
 	public get = {
 		inputFirstName: () => cy.get('input#firstName'),
@@ -202,5 +178,4 @@ class PracticeForm {
 	}
 }
 
-export const objJsonDataHandler = new JsonDataHandler();
 export const objPracticeFormPage = new PracticeForm();
