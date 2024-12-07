@@ -1,3 +1,6 @@
+import * as fs from 'fs';
+import * as path from 'path';
+
 class JsonDataHandler {
 	private data: Record<string, any>;
 	private defaultPath: string;
@@ -23,35 +26,28 @@ class JsonDataHandler {
 		this.data[key] = value;
 	}
 
-	async saveToFile(fileName: string, customPath?: string): Promise<void> {
-		// Solo carga las librerías si son necesarias
-		const { writeFile } = await import('fs/promises');
-		const path = await import('path');
-
+	saveToFile(fileName: string, customPath?: string): void {
 		const filePath = path.join(customPath || this.defaultPath, `${fileName}.json`);
-		await writeFile(filePath, JSON.stringify(this.data, null, 2), { encoding: 'utf-8' });
+		fs.writeFile(filePath, JSON.stringify(this.data, null, 2), 'utf-8', err => {
+			if (err) {
+				console.error('Error writing file:', err);
+			}
+		});
 	}
 
-	async loadFromFile(fileName: string, customPath?: string): Promise<any> {
-		// Solo carga las librerías si son necesarias
-		const { readFile, stat } = await import('fs/promises');
-		const path = await import('path');
-
+	loadFromFile(fileName: string, customPath?: string): void {
 		const filePath = path.join(customPath || this.defaultPath, `${fileName}.json`);
-		try {
-			await stat(filePath); // Verifica si el archivo existe
-			const fileContent = await readFile(filePath, 'utf-8');
-			this.data = JSON.parse(fileContent);
-			return this.data;
-		} catch (error) {
-			if (error instanceof Error) {
-				const err = error as NodeJS.ErrnoException;
+		fs.readFile(filePath, 'utf-8', (err, data) => {
+			if (err) {
 				if (err.code === 'ENOENT') {
-					throw new Error(`El archivo ${fileName}.json no existe en la carpeta ${customPath || this.defaultPath}.`);
+					console.error(`El archivo ${fileName}.json no existe en la carpeta ${customPath || this.defaultPath}.`);
+				} else {
+					console.error('Error reading file:', err);
 				}
+			} else {
+				this.data = JSON.parse(data);
 			}
-			throw error; // Re-lanza otros errores
-		}
+		});
 	}
 }
 
