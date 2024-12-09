@@ -21,6 +21,8 @@ describe('GX3-5746 |ToolsQA | Forms | Practice Form', () => {
 	beforeEach('PRC: Usuario debe estar en la url Practice Form de ToolsQA', () => {
 		cy.visit('https://demoqa.com/automation-practice-form');
 		cy.url().should('contain', 'practice-form');
+
+		objJsonDataHandler.setAllowedKeys(['firstName', 'lastName', 'email', 'gender', 'phoneNumber', 'birthDate', 'subject', 'hobbies', 'fileName', 'currentAddress', 'state', 'city']);
 	});
 
 	it('GX-5746 - TC01: Validar que se pueda enviar el formulario correctamente (HP)', () => {
