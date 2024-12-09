@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 // faker usage guide: https://fakerjs.dev/guide/usage
 // faker modules: https://fakerjs.dev/api/
 
-import { objJsonDataHandler } from '@pages/GX3-5746-Practice-Form.Page';
+import { objJsonDataHandler } from '@helper/JsonDataHandler';
 import { objPracticeFormPage } from '@pages/GX3-5746-Practice-Form.Page';
 
 const DATA_FIRST_NAME = faker.person.firstName();
@@ -21,6 +21,8 @@ describe('GX3-5746 |ToolsQA | Forms | Practice Form', () => {
 	beforeEach('PRC: Usuario debe estar en la url Practice Form de ToolsQA', () => {
 		cy.visit('https://demoqa.com/automation-practice-form');
 		cy.url().should('contain', 'practice-form');
+
+		objJsonDataHandler.setAllowedKeys(['firstName', 'lastName', 'email', 'gender', 'phoneNumber', 'birthDate', 'subject', 'hobbies', 'fileName', 'currentAddress', 'state', 'city']);
 	});
 
 	it('GX-5746 - TC01: Validar que se pueda enviar el formulario correctamente (HP)', () => {
