@@ -9,7 +9,7 @@
 		"resolveJsonModule": true,
 		"strict": true,
 		"target": "ESNext",
-		"verbatimModuleSyntax": true,
+		"verbatimModuleSyntax": false,
 		"lib": ["es5", "dom"],
 		"types": ["cypress-file-upload", "cypress-plugin-api", "cypress-plugin-steps", "cypress", "node", "@4tw/cypress-drag-drop"],
 		"baseUrl": ".",
