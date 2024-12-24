@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import fs from 'fs';
 import 'dotenv/config';
+import * as crypto from 'crypto'; // @verogeid: Importar crypto para OAuth 1.0
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,6 +26,12 @@ const orangeUsername = process.env.USERNAME;
 const orangePassword = process.env.PASSWORD;
 if (!orangePassword || !orangeUsername) {
 	new Error('MISSING CREDENTIALS: USERNAME OR PASSWORD');
+}
+
+const trelloToken = process.env.TRELLO_TOKEN;
+const trelloKey = process.env.TRELLO_TOKEN;
+if (!trelloToken || !trelloKey) {
+	new Error('MISSING CREDENTIALS: TRELLO KEY OR TOKEN');
 }
 
 export default defineConfig({
@@ -63,6 +70,12 @@ export default defineConfig({
 		setupNodeEvents(on, config) {
 			// This is required for the preprocessor to be able to generate JSON reports after each run, and more,
 			on('file:preprocessor', createBundler());
+			on('task', {
+				// @verogeid: Agregar la tarea para generar la firma
+				generateSignature({ baseString, key }: { baseString: string; key: string }) {
+					return crypto.createHmac('sha1', key).update(baseString).digest('base64');
+				}
+			});
 			on('before:browser:launch', (browser, launchOptions) => {
 				//? About this Solution:
 				//? When browser Chromium was executing test on demoqa, it was having performance issues with the ads before loading the page
@@ -85,6 +98,8 @@ export default defineConfig({
 	},
 	env: {
 		orangeUsername,
-		orangePassword
+		orangePassword,
+		trelloToken,
+		trelloKey
 	}
 });

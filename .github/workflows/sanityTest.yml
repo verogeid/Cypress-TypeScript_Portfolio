@@ -96,18 +96,18 @@ jobs:
       if: always()
       run: bun run chrome:report
 
-    - name: ✅ Import Test Results to Xray
-      if: always() #? Corre este paso si la variable de entorno está definida
-      uses: mikepenz/xray-action@v3
-      with:
-        #OPCIONES PARA IMPORTAR LOS RESULTADOS DE PRUEBA A JIRA XRAY:
-        username: ${{ secrets.XRAY_CLIENT_ID}}
-        password: ${{ secrets.XRAY_CLIENT_SECRET}}
-        testFormat: 'junit' #! NO CAMBIAR
-        testPaths: 'cypress/tests_results/junit/chrome_junit_report.xml' #! NO CAMBIAR
-        testExecKey: ${{ github.event.inputs.xray_tx }} #! NO CAMBIAR
-        projectKey: ${{ github.event.inputs.xray_project }} #! NO CAMBIAR
-        testEnvironments: ${{ github.event.inputs.environment }}
+    #    - name: ✅ Import Test Results to Xray
+    #      if: always() #? Corre este paso si la variable de #entorno está definida
+    #      uses: mikepenz/xray-action@v3
+    #      with:
+    #        #OPCIONES PARA IMPORTAR LOS RESULTADOS DE PRUEBA A #JIRA XRAY:
+    #        username: ${{ secrets.XRAY_CLIENT_ID}}
+    #        password: ${{ secrets.XRAY_CLIENT_SECRET}}
+    #        testFormat: 'junit' #! NO CAMBIAR
+    #        testPaths: 'cypress/tests_results/junit/chrome_junit_report.xml' #! NO CAMBIAR
+    #        testExecKey: ${{ github.event.inputs.xray_tx }} #! NO CAMBIAR
+    #        projectKey: ${{ github.event.inputs.xray_project }} #! NO CAMBIAR
+    #        testEnvironments: ${{ github.event.inputs.environment }}
 
     - name: 📊 Upload Artifact Mochawesome Report
       if: always()
@@ -129,16 +129,16 @@ jobs:
         keep_files: true #? true is required to work properly with the subfolder option in the Build Allure Report step.
         #* -----------------------------------------
 
-  Ari-Slack-Notification:
-    needs: [ SanityTest ] #? will always run after the SanityTest job
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-    - name: 🔔 Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_USERNAME: Ari✨
-        SLACK_MESSAGE: '🧪(${{ github.repository }}): ${{ github.actor }} triggered SanityTest🚀'
-        SLACK_COLOR: ${{ needs.SanityTest.result }}
-        SLACK_ICON: ${{ secrets.ARI_PROFILE }}
+        #  Ari-Slack-Notification:
+        #    needs: [ SanityTest ] #? will always run after the SanityTest job
+        #    if: always()
+        #    runs-on: ubuntu-latest
+        #    steps:
+        #    - name: 🔔 Slack Notification
+        #      uses: rtCamp/action-slack-notify@v2
+        #      env:
+        #        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        #        SLACK_USERNAME: Ari✨
+        #        SLACK_MESSAGE: '🧪(${{ github.repository }}): ${{ github.actor }} triggered SanityTest🚀'
+        #        SLACK_COLOR: ${{ needs.SanityTest.result }}
+        #        SLACK_ICON: ${{ secrets.ARI_PROFILE }}
