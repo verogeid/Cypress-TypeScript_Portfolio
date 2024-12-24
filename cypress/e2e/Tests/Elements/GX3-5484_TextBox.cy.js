@@ -9,7 +9,7 @@ describe('US GX3-5484 | ToolsQA | Elements | Text Box: Fill form and Submit', ()
 	});
 
 	before(() => {
-		cy.fixture('data/Elements/GX3-5484_TextBox-FillFormAndSubmit.json').then(data => {
+		cy.fixture('data/Elements/GX3-5484_TextBox.json').then(data => {
 			dataForm = data;
 		});
 	});
