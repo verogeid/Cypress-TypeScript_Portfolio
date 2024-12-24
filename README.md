@@ -1,7 +1,14 @@
+# Portafolio: Automatización de Pruebas UI en Cypress.io
+
+Este repositorio contiene **algunas** de mis tareas de automatización UI en [UPEX Academy (upexgalaxy.com)](https://www.upexgalaxy.com/es), bajo el framework Cypress.io (JavaScript & TypeScript). Si desea consultar el repositorio original visite [github.com/.../upex-cypress-demo](https://github.com/upex-galaxy/upex-cypress-demo).
+
+No se publicaran trabajos en ninguna otra empresa debido a las leyes de *Propiedad Intelectual* y *Confidencialidad*.
+
+#
+
 <!--! MODELO STANDARD de UPEX para Testing Automation (TAUS) -->
 # 🧪 Testing Automation - Cypress 👨🏻‍🚀 CI/CD
 <!--todo: Reemplazar la variable <repo_name> con el nombre real del repo -->
-[![🧪Pipeline Regression in QA](https://github.com/upex-galaxy/upex-cypress-demo/actions/workflows/regression.yml/badge.svg)](https://github.com/upex-galaxy/upex-cypress-demo/actions/workflows/regression.yml)
 ![UPEX's Banners (linkedin) (1)](https://user-images.githubusercontent.com/91127281/189470339-acea5782-16f1-4f06-9ce0-df54fd3ead9d.png)
 
 <!-- Workspace (Require-Badge) -->
@@ -20,8 +27,6 @@
 [![yarn]][yarn-docu]
 <!-- Integrations -->
 [![eslint]][eslint-site]
-
-Este repositorio contiene un marco de automatización de pruebas para el proyecto **Cypress**. El marco está diseñado para ejecutar pruebas de regresión, pruebas de humo y pruebas de integración en un entorno de CI/CD. El marco de automatización está construido con las mejores prácticas y patrones de diseño para garantizar la escalabilidad, mantenibilidad y reutilización del código de prueba.
 
 ## Requisitos para Usar el Repositorio
 
@@ -85,7 +90,7 @@ Pasos generales para comenzar a trabajar con el repositorio:
    ```
 
 4. **Crear el archivo `.env` para guardar tus Variables de Environment**:
-   Si el proyecto necesita variables de Ambiente, crea tu archivo `.env` en la directorio root del proyecto para guardar las variables de environment (revisa el el archivo de config del framework para ver qué necesitas) y agregarlo al `.gitignore`.
+   Si el proyecto necesita variables de Ambiente, crea tu archivo `.env` en la directorio root del proyecto para guardar las variables de environment (revisa el archivo de config del framework para ver qué necesitas) y agregarlo al `.gitignore`.
 
 5. **Conoce y ejecuta scripts del `package.json`**:
    <!--todo: Script de Node.js (remueve este último Paso si el repo NO usa Node.js) -->
@@ -93,10 +98,6 @@ Pasos generales para comenzar a trabajar con el repositorio:
    Revisa el archivo `package.json` para ver los scripts disponibles para ejecutar en la terminal.
 
 ---
-
-## **📝 Plan de Repositorio QA Automation**
-
-A continuación se presenta el Plan completo de uso del Repositorio de UPEX. Es fundamental seguir todas las directrices y lineamientos establecidos en este documento para garantizar un trabajo eficiente y de calidad en el ámbito de QA Automation. El cumplimiento de estos lineamientos es esencial para el éxito de los proyectos y la mejora continua de los procesos de automatización de pruebas. ¡Tu compromiso y dedicación en seguir estas pautas son clave para el logro de los objetivos establecidos!
 
 ### 🛠️ Proceso de Contribución al Repositorio (Flujo de Git)
 
@@ -419,8 +420,8 @@ Para mantener la consistencia y claridad en los repositorios de UPEX, sigue esta
 
             ```typescript
             it('GX3-234 TC1: {{Test_title}}', () => {
-                const username = 'user1';
-                const password = 'password1';
+                const USERNAME = 'user1';
+                const PASSWORD = 'password1';
                 // ...
             });
             ```
@@ -431,8 +432,8 @@ Para mantener la consistencia y claridad en los repositorios de UPEX, sigue esta
             ```typescript
             // ...
                loginPage.open();
-               loginPage.fillUsername(username);
-               loginPage.fillPassword(password);
+               loginPage.fillUsername(USERNAME);
+               loginPage.fillPassword(PASSWORD);
                loginPage.submitLogin();
             // ...
             ```
@@ -455,12 +456,12 @@ Para mantener la consistencia y claridad en los repositorios de UPEX, sigue esta
             });
             it('GX3-234 TC1: Should not login with invalid credentials', () => {
                   // Arrange
-                  const username = 'user1';
-                  const password = 'password1';
+                  const USERNAME = 'user1';
+                  const PASSWORD = 'password1';
                   // Act
                   loginPage.open();
-                  loginPage.fillUsername(username);
-                  loginPage.fillPassword(password);
+                  loginPage.fillUsername(USERNAME);
+                  loginPage.fillPassword(PASSWORD);
                   loginPage.submitLogin();
                   // Assert
                   loginPage.getErrorMessage().should('have.text', 'Invalid credentials');
