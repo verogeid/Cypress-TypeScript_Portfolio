@@ -16,6 +16,16 @@ if (!orangePassword || !orangeUsername) {
 	new Error('MISSING CREDENTIALS: USERNAME OR PASSWORD');
 }
 
+// @verogeid: Necesario para pruebas API con Trello.
+// - En local: crear un .env con las variables
+// - En el servidor: un admin debe crear los secrets
+const trelloToken = process.env.TRELLO_TOKEN;
+const trelloKey = process.env.TRELLO_KEY;
+console.log('TRELLO_TOKEN:', trelloToken);
+if (!trelloToken || !trelloKey) {
+	throw new Error('MISSING CREDENTIALS: TRELLO_TOKEN OR TRELLO_KEY');
+}
+
 export default defineConfig({
 	pageLoadTimeout: 20000,
 	// @Ely: CYPRESS DASHBOARD PARA VER NUESTRAS EJECUCIONES EN LA WEB:
@@ -74,6 +84,8 @@ export default defineConfig({
 	},
 	env: {
 		orangeUsername,
-		orangePassword
+		orangePassword,
+		TRELLO_TOKEN: process.env.TRELLO_TOKEN,
+		TRELLO_KEY: process.env.TRELLO_KEY
 	}
 });
